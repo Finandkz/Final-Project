@@ -1,0 +1,30 @@
+PANDUAN SETTING CRON JOB (UNTUK HOSTING LINUX/CPANEL)
+=====================================================
+
+File .bat hanya berfungsi di Windows (Laptop Anda).
+Saat di-upload ke Hosting (cPanel), Anda harus mengatur "Cron Job" agar script berjalan otomatis.
+
+Langkah-langkah:
+1. Login ke cPanel Hosting Anda.
+2. Cari menu "Cron Jobs" atau "Penjadwal Tugas".
+3. Tambahkan 2 tugas baru dengan pengaturan berikut:
+
+-----------------------------------------------------
+TUGAS 1: PERINGATAN JADWAL MAKAN
+-----------------------------------------------------
+Waktu (Common Settings): "Once per minute" (* * * * *)
+Command: 
+/usr/local/bin/php /home/USERNAME_CPL/public_html/folder_projek/app/scripts/meal_reminder_cron.php
+
+-----------------------------------------------------
+TUGAS 2: PENGIRIMAN EMAIL REMINDER
+-----------------------------------------------------
+Waktu (Common Settings): "Once per minute" (* * * * *)
+Command: 
+/usr/local/bin/php /home/USERNAME_CPL/public_html/folder_projek/app/scripts/send_meal_reminders.php
+
+=====================================================
+CATATAN PENTING:
+- Ganti "USERNAME_CPL" dengan username cPanel Anda.
+- Ganti "/folder_projek/" dengan nama folder tempat Anda menaruh file mealify (jika ada).
+- Path "/usr/local/bin/php" bisa berbeda tergantung hosting. Cek panduan hosting Anda atau tanya support mereka "Path PHP yang benar".

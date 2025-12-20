@@ -1,0 +1,41 @@
+# === ENVIRONMENT (SENSITIF) ===
+# Mengabaikan file konfigurasi database dan API keys agar tidak tersebar
+.env
+
+# === DEPENDENCIES ===
+# Folder library dari Composer, tidak perlu diupload karena ukurannya besar
+/vendor/
+
+# === RUNTIME DATA ===
+# Mengabaikan semua file cache sementara aplikasi
+/cache/*
+# Kecuali file .gitkeep agar folder cache tetap ada di repository Git
+!/cache/.gitkeep
+
+# Mengabaikan file yang diupload user (seperti foto profil testing)
+/public/uploads/*
+# Kecuali file .gitkeep agar folder uploads tetap ada di repository Git
+!/public/uploads/.gitkeep
+
+# Mengabaikan folder log dan file catatan error otomatis
+/logs/
+*.log
+
+# === PROJECT SPECIFIC (MEALIFY) ===
+# Mengabaikan file log khusus hasil running cron job di scripts
+/app/scripts/*.txt
+
+# === IDEs (EDITOR) ===
+# Mengabaikan pengaturan pribadi dari VS Code, PHPStorm, dll
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# === OS (SISTEM OPERASI) ===
+# File sampah otomatis dari Windows (untuk ikon/thumbnail folder)
+Thumbs.db
+Desktop.ini

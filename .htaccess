@@ -1,0 +1,18 @@
+# ===============================
+# 1. LARANG AKSES FILE .ENV
+# ===============================
+<Files ".env">
+    Require all denied
+</Files>
+
+# ===============================
+# 2. LARANG AKSES FILE SENSITIF
+# ===============================
+<FilesMatch "(composer\.json|composer\.lock|config\.php|\.htaccess)">
+    Require all denied
+</FilesMatch>
+
+# ===============================
+# 3. NONAKTIFKAN DIRECTORY LISTING
+# ===============================
+Options -Indexes

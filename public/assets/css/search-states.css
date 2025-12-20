@@ -1,0 +1,53 @@
+.search-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--white);
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+.search-state-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    color: var(--white);
+    opacity: 0.8;
+}
+
+.search-state-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--white);
+}
+
+.search-state-subtext {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 0.5rem;
+}
+
+.search-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--white);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.search-empty-state .search-state-icon {
+    color: var(--white);
+}
+
+.search-error-state .search-state-icon {
+    color: #fca5a5;
+}
