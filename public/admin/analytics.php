@@ -56,12 +56,12 @@ $conn = $db->connect();
 
             <div class="filter-group">
                 <label for="from">Date From</label>
-                <input type="date" id="from" value="<?= date('Y-m-d') ?>">
+                <input type="date" id="from" value="<?= date('Y-m-d', strtotime('-5 days')) ?>">
             </div>
 
             <div class="filter-group">
                 <label for="to">Date To</label>
-                <input type="date" id="to" value="<?= date('Y-m-d', strtotime('+3 days')) ?>">
+                <input type="date" id="to" value="<?= date('Y-m-d') ?>">
             </div>
 
             <button id="loadBtn" class="btn-primary-modern">View Data</button>

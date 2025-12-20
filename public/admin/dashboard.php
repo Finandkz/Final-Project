@@ -53,8 +53,8 @@ $conn = $db->connect();
                 </select>
             </label>
 
-            <label>From: <input type="date" id="from" value="<?= date('Y-m-d') ?>"></label>
-            <label>To: <input type="date" id="to" value="<?= date('Y-m-d', strtotime('+2 days')) ?>"></label>
+            <label>From: <input type="date" id="from" value="<?= date('Y-m-d', strtotime('-5 days')) ?>"></label>
+            <label>To: <input type="date" id="to" value="<?= date('Y-m-d') ?>"></label>
             <button id="loadBtn" class="btn-primary">Show</button>
         </section>
 
