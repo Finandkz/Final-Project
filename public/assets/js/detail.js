@@ -76,115 +76,37 @@ function showToast(message, type = "success") {
         .map(line => `<li>${line}</li>`)
         .join("");
 
-    el.innerHTML = `
-        <a href="mhs_dashboard.php" class="back-link">← Back to dashboard</a>
+    // Inject dynamic data into existing HTML
+    document.getElementById("recipeTitle").textContent = r.label;
+    
+    const sourceEl = document.getElementById("recipeSource");
+    if (r.url) {
+        sourceEl.innerHTML = `See full recipe on: <a href="${r.url}" target="_blank">${r.source || "Source"}</a>`;
+    } else {
+        sourceEl.textContent = `Source: ${r.source || "-"}`;
+    }
 
-        <div class="detail-layout">
-            <div class="detail-left">
-                <div class="detail-img-wrap">
-                    <img src="${r.image}" alt="${r.label}">
-                </div>
-                <div class="detail-section">
-                    <h3>${(r.ingredientLines || []).length} Ingredients</h3>
-                    <ul>${ingredientsHTML}</ul>
-                </div>
-            </div>
-            <div class="detail-right">
-                <h1>${r.label}</h1>
-                <p class="detail-source">
-                    See full recipe on:
-                    ${r.url ? `<a href="${r.url}" target="_blank">${r.source || "Source"}</a>` : (r.source || "-")}
-                </p>
-                <button class="fav-btn" id="favBtn">
-                    Add to favorite
-                </button>
+    const imgWrap = document.getElementById("detailImgWrap");
+    imgWrap.innerHTML = `<img src="${r.image}" alt="${r.label}">`;
 
-                <div class="detail-section nut-section">
-                    <h3>Nutrition</h3>
+    const ingredientsCountEl = document.getElementById("ingredientsCount");
+    const ingredientsListEl = document.getElementById("ingredientsList");
+    const lines = r.ingredientLines || [];
+    ingredientsCountEl.textContent = `${lines.length} Ingredients`;
+    ingredientsListEl.innerHTML = lines.map(line => `<li>${line}</li>`).join("");
 
-                    <div class="nut-summary">
-                        <div class="nut-summary-box">
-                            <div class="nut-summary-label">Calories / Serving</div>
-                            <div class="nut-summary-value">
-                                <span id="calPerServing"></span>
-                            </div>
-                        </div>
-                        <div class="nut-summary-box">
-                            <div class="nut-summary-label">% Daily Value</div>
-                            <div class="nut-summary-value">
-                                <span id="dailyValuePerServing"></span>
-                                <span class="nut-summary-unit">%</span>
-                            </div>
-                        </div>
-                        <div class="nut-summary-box">
-                            <div class="nut-summary-label">Servings</div>
-                            <div class="nut-summary-value">
-                                <input
-                                    id="servingsInput"
-                                    type="number"
-                                    min="0.1"
-                                    step="0.5"
-                                    class="servings-input"
-                                    value="${baseServings}"
-                                >
-                            </div>
-                        </div>
-                    </div>
+    const healthLabelsEl = document.getElementById("healthLabels");
+    healthLabelsEl.textContent = (r.healthLabels || []).join(", ");
 
-                    <div class="nut-labels">${healthLabels}</div>
-
-                    <div class="nut-bar">
-                        <div class="nut-bar-fill" id="nutBarFill"></div>
-                    </div>
-
-                    <table class="nut-table">
-                        <tr>
-                            <th>Fat</th>
-                            <td id="fatQty"></td>
-                            <td id="fatPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Saturated</th>
-                            <td id="satQty"></td>
-                            <td id="satPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Carbs</th>
-                            <td id="carbsQty"></td>
-                            <td id="carbsPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Fiber</th>
-                            <td id="fiberQty"></td>
-                            <td id="fiberPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Sugars</th>
-                            <td id="sugarQty"></td>
-                            <td id="sugarPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Protein</th>
-                            <td id="protQty"></td>
-                            <td id="protPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Cholesterol</th>
-                            <td id="cholQty"></td>
-                            <td id="cholPct"></td>
-                        </tr>
-                        <tr>
-                            <th>Sodium</th>
-                            <td id="sodiumQty"></td>
-                            <td id="sodiumPct"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-    `;
+    const mpFoodNameInput = document.getElementById("mpFoodName");
+    if (mpFoodNameInput) mpFoodNameInput.value = r.label;
 
     const favBtn = document.getElementById("favBtn");
+    const planBtn = document.getElementById("planBtn");
+    const mpModal = document.getElementById("mpModal");
+    const mpModalClose = document.getElementById("mpModalClose");
+    const mpCancel = document.getElementById("mpCancel");
+    const mpSave = document.getElementById("mpSave");
     const servingsInput = document.getElementById("servingsInput");
     const calPerServingEl = document.getElementById("calPerServing");
     const dailyValueEl = document.getElementById("dailyValuePerServing");
@@ -324,7 +246,91 @@ function showToast(message, type = "success") {
         });
     }
 
+    if (planBtn) {
+        planBtn.addEventListener("click", () => {
+            mpModal.classList.add("active");
+        });
+    }
+
+    if (mpModalClose) {
+        mpModalClose.addEventListener("click", () => {
+            mpModal.classList.remove("active");
+        });
+    }
+
+    if (mpCancel) {
+        mpCancel.addEventListener("click", () => {
+            mpModal.classList.remove("active");
+        });
+    }
+
+    window.addEventListener("click", (e) => {
+        if (e.target === mpModal) {
+            mpModal.classList.remove("active");
+        }
+    });
+
+    if (mpSave) {
+        mpSave.addEventListener("click", function() {
+            const foodName = document.getElementById("mpFoodName").value;
+            const mealTime = document.getElementById("mpMealTime").value;
+            const mealType = document.getElementById("mpMealType").value;
+            const notes = document.getElementById("mpNotes").value;
+
+            if (!mealTime || !mealType) {
+                showToast("Please fill in the meal time and type.", "error");
+                return;
+            }
+
+            const payload = {
+                food_name: foodName,
+                meal_time: mealTime,
+                meal_type: mealType,
+                notes: notes
+            };
+
+            mpSave.disabled = true;
+            mpSave.textContent = "Saving...";
+            
+            // Close modal immediately as requested
+            mpModal.classList.remove("active");
+
+            fetch("../../app/api/meal_plan_add.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, "success");
+                    // Reset fields
+                    document.getElementById("mpMealTime").value = "";
+                    document.getElementById("mpMealType").value = "";
+                    document.getElementById("mpNotes").value = "";
+                } else {
+                    showToast(data.message || "Failed to add meal plan.", "error");
+                    // Re-open if failed so user can see/fix? 
+                    // User said "langsung tutup aja", so we keep it closed but maybe reopening on error is better UX?
+                    // For now, follow user's direct request to just close it.
+                }
+            })
+            .catch(error => {
+                console.error("Error adding meal plan:", error);
+                showToast("An error occurred. Please try again.", "error");
+            })
+            .finally(() => {
+                mpSave.disabled = false;
+                mpSave.textContent = "Save Plan";
+            });
+        });
+    }
+
     if (servingsInput) {
+        servingsInput.value = baseServings;
         servingsInput.addEventListener("input", function () {
             const valStr = servingsInput.value.trim();
             if (valStr === "") return;
