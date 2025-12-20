@@ -851,3 +851,27 @@ body {
     outline: 2px solid #fca5a5;
     outline-offset: 2px;
 }
+/* Analytics Table Styles */
+#analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#analytics-table th, 
+#analytics-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#analytics-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+}
+
+#analytics-table tr:hover {
+    background-color: #f3f4f6;
+}
+

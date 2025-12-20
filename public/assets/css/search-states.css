@@ -51,3 +51,8 @@
 .search-error-state .search-state-icon {
     color: #fca5a5;
 }
+
+.d-none {
+    display: none !important;
+}
+

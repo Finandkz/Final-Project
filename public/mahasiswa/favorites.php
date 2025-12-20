@@ -45,9 +45,9 @@ $stmt->close();
         <button class="close-btn" id="closeSidebar">✕</button>
         <h2>Akun</h2>
         <ul>
+        <li><a href="mhs_dashboard.php"><i data-feather="home" class="simbol"></i> Dashboard</a></li>
         <li><a href="account.php"><i data-feather="user" class="simbol"></i> Account Information</a></li>
         <li><a href="change_password.php"><i data-feather="edit" class="simbol"></i> Change Password</a></li>
-        <li><a href="favorites.php"><i data-feather="star" class="simbol"></i> Favorite</a></li>
         <li><a href="../logout.php"><i data-feather="log-out" class="simbol"></i>Logout</a></li>
     </ul>
     </div>
@@ -60,9 +60,6 @@ $stmt->close();
                     saved recipe
                 </p>
             </div>
-            <a href="mhs_dashboard.php" class="fav-back-link">
-                ← Back to Dashboard
-            </a>
         </section>
         <section class="fav-content">
 

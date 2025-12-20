@@ -33,6 +33,7 @@ if ($avatarFile) {
 <head>
     <meta charset="UTF-8">
     <title>Account Information - Mealify</title>
+    <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="../assets/css/account.css">
 </head>
 <body>
@@ -43,11 +44,22 @@ if ($avatarFile) {
             <img src="../assets/img/logo.jpg" class="logo">
             <h1 class="brand">MEALIFY</h1>
         </div>
-        <div>
-            <a href="mhs_dashboard.php" class="account-home-icon" title="Back to dashboard">← Back</a>
+        <div class="header-right">
+             <button class="menu-btn" id="openSidebar">☰</button>
         </div>
     </header>
 
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeSidebar">✕</button>
+        <h2>Account</h2>
+        <ul>
+            <li><a href="mhs_dashboard.php"><i data-feather="home" class="simbol"></i> Dashboard</a></li>
+            <li><a href="change_password.php"><i data-feather="edit" class="simbol"></i> Change Password</a></li>
+            <li><a href="favorites.php"><i data-feather="star" class="simbol"></i> Favorite</a></li>
+            <li><a href="../logout.php"><i data-feather="log-out" class="simbol"></i>Logout</a></li>
+        </ul>
+    </div>
+    
     <div class="account-page">
         <main class="account-card">
 

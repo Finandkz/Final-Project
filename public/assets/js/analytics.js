@@ -207,18 +207,20 @@ function renderNutriGroupedBar(labels, calories, protein, carbs, fat) {
 
 function renderTable(rows) {
     const tbody = document.getElementById("tableBody");
+    const template = document.getElementById("analytics-row-template");
+    
     tbody.innerHTML = "";
     
     rows.forEach(r => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${r.tanggal}</td>
-            <td>${r.calories.toFixed(1)}</td>
-            <td>${r.protein.toFixed(1)}</td>
-            <td>${r.carbs.toFixed(1)}</td>
-            <td>${r.fat.toFixed(1)}</td>
-        `;
-        tbody.appendChild(tr);
+        const clone = template.content.cloneNode(true);
+        
+        clone.querySelector(".col-date").textContent = r.tanggal;
+        clone.querySelector(".col-cal").textContent = r.calories.toFixed(1);
+        clone.querySelector(".col-prot").textContent = r.protein.toFixed(1);
+        clone.querySelector(".col-carbs").textContent = r.carbs.toFixed(1);
+        clone.querySelector(".col-fat").textContent = r.fat.toFixed(1);
+        
+        tbody.appendChild(clone);
     });
 }
 

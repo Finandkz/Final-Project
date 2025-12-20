@@ -16,48 +16,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const deleteBtn = document.getElementById('btn-delete-account');
+    const backdrop = document.getElementById('account-delete-modal');
 
-    if (deleteBtn) {
-        const backdrop = document.createElement('div');
-        backdrop.className = 'account-modal-backdrop';
-        backdrop.id = 'account-delete-modal';
-
-        backdrop.innerHTML = `
-            <div class="account-modal">
-                <h2>Are you sure?</h2>
-                <p>Do you want to delete this account? This action cannot be undone.</p>
-                <div class="account-modal-actions">
-                    <button class="account-modal-btn account-modal-btn--danger" id="delete-confirm">Delete</button>
-                    <button class="account-modal-btn account-modal-btn--secondary" id="delete-cancel">Cancel</button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(backdrop);
-
+    if (deleteBtn && backdrop) {
         const showModal   = () => backdrop.classList.add('show');
         const hideModal   = () => backdrop.classList.remove('show');
-        const cancelBtn   = backdrop.querySelector('#delete-cancel');
-        const confirmBtn  = backdrop.querySelector('#delete-confirm');
+        const cancelBtn   = document.getElementById('delete-cancel');
+        const confirmBtn  = document.getElementById('delete-confirm');
 
         deleteBtn.addEventListener('click', (e) => {
             e.preventDefault();
             showModal();
         });
 
-        cancelBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideModal();
-        });
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideModal();
+            });
+        }
 
         backdrop.addEventListener('click', (e) => {
             if (e.target === backdrop) hideModal();
         });
 
-        confirmBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const form = document.getElementById('delete-account-form');
-            if (form) form.submit();
-        });
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const form = document.getElementById('delete-account-form');
+                if (form) form.submit();
+            });
+        }
+    }
+
+    const sidebar = document.getElementById("sidebar");
+    const openSidebarBtn = document.getElementById("openSidebar");
+    const closeSidebarBtn = document.getElementById("closeSidebar");
+
+    if (openSidebarBtn && sidebar) {
+        openSidebarBtn.onclick = () => sidebar.classList.add("show");
+    }
+    if (closeSidebarBtn && sidebar) {
+        closeSidebarBtn.onclick = () => sidebar.classList.remove("show");
+    }
+    
+    // Initialize feather icons if available
+    if (typeof feather !== 'undefined') {
+        feather.replace();
     }
 });

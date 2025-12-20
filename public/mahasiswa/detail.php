@@ -28,14 +28,19 @@ $appKey = Env::get("EDAMAM_APP_KEY");
 
 <div class="page-content">
     <div class="detail-page">
-        <div class="detail-wrapper">
+        <div class="detail-wrapper" id="detailWrapper">
             <div class="back-nav">
                 <a href="mhs_dashboard.php" class="back-link">← Back to dashboard</a>
             </div>
+
+            <p id="no-data-msg" class="d-none" style="text-align:center; padding: 20px; color: #ef4444; font-weight: bold;">
+                Recipe data is not available. Please return to the search page.
+            </p>
+
             <div class="detail-layout">
                 <div class="detail-left">
                     <div class="detail-img-wrap" id="detailImgWrap">
-                        <!-- Image will be injected here -->
+                       <img src="" alt="Recipe Image" id="recipeImage">
                     </div>
                     <div class="detail-section">
                         <h3 id="ingredientsCount">Ingredients</h3>
@@ -44,11 +49,14 @@ $appKey = Env::get("EDAMAM_APP_KEY");
                 </div>
                 <div class="detail-right">
                     <h1 id="recipeTitle">Loading...</h1>
-                    <p class="detail-source" id="recipeSource"></p>
+                    <div class="detail-source-container">
+                        <p class="detail-source">Source: <a href="#" target="_blank" id="sourceLink">-</a></p>
+                        <p class="detail-source" id="recipeSource" style="display:none"></p>
+                    </div>
                     
                     <div class="detail-actions">
                         <button class="fav-btn" id="favBtn">Add to favorite</button>
-                        <button class="plan-btn" id="planBtn">📅 Add to Meal Planner</button>
+                        <button class="plan-btn" id="planBtn">Add to Meal Planner</button>
                     </div>
 
                     <div class="detail-section nut-section">

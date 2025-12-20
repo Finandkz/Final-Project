@@ -47,4 +47,21 @@ document.addEventListener("DOMContentLoaded", function () {
           }, 400);
       });
   });
+
+
+  const sidebar = document.getElementById("sidebar");
+  const openSidebarBtn = document.getElementById("openSidebar");
+  const closeSidebarBtn = document.getElementById("closeSidebar");
+
+  if (openSidebarBtn && sidebar) {
+      openSidebarBtn.onclick = () => sidebar.classList.add("show");
+  }
+  if (closeSidebarBtn && sidebar) {
+      closeSidebarBtn.onclick = () => sidebar.classList.remove("show");
+  }
+
+  // Initialize feather icons if available
+  if (typeof feather !== 'undefined') {
+      feather.replace();
+  }
 });

@@ -676,3 +676,8 @@ body {
         padding: 12px 14px;
     }
 }
+
+.d-none {
+    display: none !important;
+}
+

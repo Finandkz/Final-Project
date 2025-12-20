@@ -100,6 +100,17 @@ $conn = $db->connect();
     </main>
 </div>
 
+<!-- Template for Analytics Table Row -->
+<template id="analytics-row-template">
+    <tr>
+        <td class="col-date"></td>
+        <td class="col-cal"></td>
+        <td class="col-prot"></td>
+        <td class="col-carbs"></td>
+        <td class="col-fat"></td>
+    </tr>
+</template>
+
 <div id="warningModal" class="modal-backdrop">
     <div class="modal-box">
         <div class="modal-icon">

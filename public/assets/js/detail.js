@@ -2,8 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const el = document.getElementById("detailWrapper");
     const raw = sessionStorage.getItem("mealify_selected_recipe");
 
+    const noDataMsg = document.getElementById("no-data-msg");
+    const detailCard = document.querySelector(".detail-card");
+
     if (!raw) {
-        el.innerHTML = "<p>Recipe data is not available. Please return to the search page..</p>";
+        if (noDataMsg) noDataMsg.classList.remove("d-none");
+        if (detailCard) detailCard.style.display = "none";
         return;
     }
 
@@ -79,15 +83,23 @@ function showToast(message, type = "success") {
     // Inject dynamic data into existing HTML
     document.getElementById("recipeTitle").textContent = r.label;
     
-    const sourceEl = document.getElementById("recipeSource");
+    // Update source link
+    const sourceLink = document.getElementById("sourceLink");
     if (r.url) {
-        sourceEl.innerHTML = `See full recipe on: <a href="${r.url}" target="_blank">${r.source || "Source"}</a>`;
+        sourceLink.href = r.url;
+        sourceLink.textContent = r.source || "Source";
+        sourceLink.style.display = "inline"; 
     } else {
-        sourceEl.textContent = `Source: ${r.source || "-"}`;
+        sourceLink.style.display = "none";
+        document.getElementById("recipeSource").textContent = `Source: ${r.source || "-"}`;
     }
 
-    const imgWrap = document.getElementById("detailImgWrap");
-    imgWrap.innerHTML = `<img src="${r.image}" alt="${r.label}">`;
+    // Update image
+    const imgEl = document.getElementById("recipeImage");
+    if (imgEl) {
+        imgEl.src = r.image;
+        imgEl.alt = r.label;
+    }
 
     const ingredientsCountEl = document.getElementById("ingredientsCount");
     const ingredientsListEl = document.getElementById("ingredientsList");
