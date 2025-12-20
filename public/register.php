@@ -1,4 +1,5 @@
 <?php
+ob_start();
 use App\Config\Database;
 use App\Controllers\AuthController;
 use App\Helpers\Session;
@@ -6,6 +7,16 @@ use App\Helpers\Session;
 require_once __DIR__ . "/../vendor/autoload.php";
 
 Session::start();
+if (Session::get('user')) {
+    $u = Session::get('user');
+    session_write_close();
+    if ($u['role'] === 'admin') {
+        header("Location: admin/dashboard.php");
+    } else {
+        header("Location: mahasiswa/mhs_dashboard.php");
+    }
+    exit;
+}
 $db = (new Database())->connect();
 $auth = new AuthController($db);
 $errors = [];
@@ -25,6 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res = $auth->registerAndSendOTP($name, $email, $password);
             if($res['status'] === 'ok') {
                 Session::set('pending_email', $email);
+                session_write_close();
                 header("Location: otp-verify.php");
                 exit;
             } else {

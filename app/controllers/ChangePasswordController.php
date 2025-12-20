@@ -16,7 +16,8 @@ class ChangePasswordController
         $this->user = Session::get('user');
 
         if (!$this->user) {
-            header("Location: ../public/login.php");
+            session_write_close();
+            header("Location: ../login.php");
             exit;
         }
 
@@ -59,7 +60,6 @@ class ChangePasswordController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Hardening: CSRF Protection
             if (!Session::validateCsrfToken($_POST['_csrf'] ?? '')) {
                 $errors[] = "Invalid CSRF token. Please refresh the page.";
                 return compact('errors', 'success');

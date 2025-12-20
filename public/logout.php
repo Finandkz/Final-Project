@@ -5,6 +5,7 @@ Session::start();
 
 if (isset($_GET['do']) && $_GET['do'] === 'logout') {
     Session::destroy();
+    session_write_close();
     header("Location: login.php");
     exit;
 }

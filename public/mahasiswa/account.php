@@ -173,6 +173,17 @@ if ($avatarFile) {
         <div class="account-wave"></div>
     </div>
 
+    <div id="account-delete-modal" class="account-modal-backdrop">
+        <div class="account-modal">
+            <h2>Delete Account?</h2>
+            <p>This action is permanent and cannot be undone. All your data including meal plans and stats will be lost.</p>
+            <div class="account-modal-actions">
+                <button type="button" id="delete-cancel" class="account-modal-btn account-modal-btn--secondary">Cancel</button>
+                <button type="button" id="delete-confirm" class="account-modal-btn account-modal-btn--danger">Delete Anyway</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         © 2025 Mealify — Healthy Living Starts with Healthy Food
     </footer>

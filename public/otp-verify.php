@@ -1,4 +1,5 @@
 <?php
+ob_start();
 use App\Config\Database;
 use App\Controllers\AuthController;
 use App\Controllers\OTPController;
@@ -8,6 +9,16 @@ use App\Models\User;
 require_once __DIR__ . "/../vendor/autoload.php";
 
 Session::start();
+if (Session::get('user')) {
+    $u = Session::get('user');
+    session_write_close();
+    if ($u['role'] === 'admin') {
+        header("Location: admin/dashboard.php");
+    } else {
+        header("Location: mahasiswa/mhs_dashboard.php");
+    }
+    exit;
+}
 $db = (new Database())->connect();
 
 $auth = new AuthController($db);
@@ -27,8 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!Session::validateCsrfToken($_POST['_csrf'] ?? '')) {
         $errors[] = "Invalid CSRF token. Please refresh the page.";
     } else {
-        if (isset($_POST['verify'])) {
+        $action = $_POST['action'] ?? '';
 
+        if ($action === 'verify') {
             $code = trim($_POST['otp'] ?? '');
 
             if (!$code) {
@@ -38,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($ok) {
                     Session::remove('pending_email');
-                    $user = $userModel->getByEmail($pendingEmail);
-                    Session::set('user', $user);
+                    Session::set('login_success', 'Your account has been verified! Please login.');
+                    session_write_close();
                     header("Location: login.php");
                     exit;
                 } else {
@@ -47,10 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
-
-        elseif (isset($_POST['resend'])) {
+        elseif ($action === 'resend') {
             $sent = $otpCtrl->resend($pendingEmail);
-            $msg = $sent ? "New OTP has been send." : "Failed to send OTP.";
+            $msg = ($sent === true) ? "New OTP has been send." : "Failed to send OTP: " . $sent;
         }
     }
 }
@@ -82,10 +93,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post">
           <input type="hidden" name="_csrf" value="<?= Session::generateCsrfToken() ?>">
+          <input type="hidden" name="action" value="verify">
           
           <div class="input-group">
             <label>OTP Code</label>
-            <input type="text" name="otp" placeholder="Enter 6-digit code" style="letter-spacing: 4px; font-weight: bold; text-align: center;">
+            <input type="text" name="otp" placeholder="Enter 6-digit code" autocomplete="one-time-code" style="letter-spacing: 4px; font-weight: bold; text-align: center;">
           </div>
           
           <button class="btn" type="submit" name="verify">Verify Account</button>
@@ -93,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post" style="margin-top:20px; text-align:center;">
           <input type="hidden" name="_csrf" value="<?= Session::generateCsrfToken() ?>">
+          <input type="hidden" name="action" value="resend">
           <p class="small" style="margin-bottom:10px;">Didn't receive code?</p>
           <button class="btn-link" type="submit" name="resend" id="resendBtn">Resend OTP</button>
         </form>

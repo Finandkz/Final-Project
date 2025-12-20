@@ -21,5 +21,6 @@ if(!$user) {
 }
 
 Session::set('user', $user);
-header("Location: /mealify/public/mahasiswa/mhs_dashboard.php");
+session_write_close();
+header("Location: mahasiswa/mhs_dashboard.php");
 exit;

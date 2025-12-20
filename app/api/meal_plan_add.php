@@ -5,9 +5,14 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 
 use App\Helpers\Session;
 use App\Config\Database;
+use App\Helpers\Env;
 use DateTime;
 
 Session::start();
+Env::load();
+
+date_default_timezone_set(Env::get('APP_TIMEZONE', 'Asia/Jakarta'));
+
 $user = Session::get("user");
 
 if (!$user) {
@@ -47,9 +52,7 @@ try {
 
     $planned_at_str = $planned_at_obj->format("Y-m-d H:i:s");
     
-    // Check if it should be notified (if time is in the future)
-    $now = new DateTime("now");
-    $is_notified = ($planned_at_obj > $now) ? 0 : 1;
+    $is_notified = 0;
 
     $stmt = $conn->prepare(
         "INSERT INTO meal_plans (user_id, food_name, meal_type, meal_time, notes, is_notified) 

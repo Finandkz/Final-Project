@@ -17,7 +17,8 @@ class AccountController
         $this->user = Session::get('user');
 
         if (!$this->user) {
-            header("Location: /mealify/public/login.php");
+            session_write_close();
+            header("Location: ../login.php");
             exit;
         }
 
@@ -36,7 +37,6 @@ class AccountController
         $userId  = (int)$this->user['id'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Hardening: CSRF Protection
             if (!Session::validateCsrfToken($_POST['_csrf'] ?? '')) {
                 $errors[] = "Invalid CSRF token. Please refresh the page.";
                 return [
@@ -228,13 +228,14 @@ class AccountController
             $this->conn->commit();
 
             Session::destroy();
-
-            header("Location: /mealify/public/login.php");
+            session_write_close();
+            header("Location: ../login.php");
             exit;
         } catch (Throwable $e) {
             $this->conn->rollback();
             Session::set('account_delete_error', 'Failed to delete account. Please try again later.');
-            header("Location: ../../public/mahasiswa/account.php");
+            session_write_close();
+            header("Location: account.php");
             exit;
         }
     }

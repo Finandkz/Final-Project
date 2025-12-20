@@ -26,12 +26,12 @@ class AuthController {
             ];
         }
 
-        if($this->user->getByEmail($email)) {
-             $existingUser = $this->user->getByEmail($email);
+        $existingUser = $this->user->getByEmail($email);
+        if($existingUser) {
              if((int)$existingUser['is_verified'] === 1) {
                 return ['status'=>'error','message'=>'EMAIL USED'];
              }
-
+             $this->user->updateUnverified($name, $email, $password);
         } else {
             $created = $this->user->register($name, $email, $password);
             if(!$created) 
@@ -41,29 +41,35 @@ class AuthController {
         $this->otp->invalidateAllByEmail($email);
 
         $code = random_int(100000, 999999);
-        $this->otp->create($email, (string)$code, 5);
+        $otpCreated = $this->otp->create($email, (string)$code, 5);
+        if (!$otpCreated) {
+            return ['status' => 'error', 'message' => 'Failed to generate security code.'];
+        }
 
         $sent = Mailer::send($email,
          "Mealify - OTP Code", "Hello, here is your OTP code:
          <b>{$code}</b>. Use this code to complete your verification.
           This code is only valid for 5 minutes.");
 
-        return ['status'=>'ok','message'=>'OTP_SENT','sent'=>$sent];
+        if ($sent !== true) {
+            return ['status' => 'error', 'message' => 'Failed to send verification email: ' . $sent];
+        }
+
+        return ['status'=>'ok','message'=>'OTP_SENT'];
     }
 
     public function verifyOTP($email, $code) {
         $data = $this->otp->validate($email, $code);
         if(!$data) return false;
         $this->otp->markUsed($data['id']);
-        $this->user->verifyEmail($email);
-        return true;
+        return $this->user->verifyEmail($email);
     }
 
     public function login($email, $password) {
         $res = $this->user->loginByEmail($email, $password);
 
         if($res === "NOT_VERIFIED") 
-            return ['status'=>'error','message'=>'NOT VERIFIED'];
+            return ['status'=>'error','message'=>'NOT_VERIFIED'];
 
         if(!$res) 
             return ['status'=>'error','message'=>'INVALID CREDENTIALS'];
@@ -75,17 +81,5 @@ class AuthController {
     }
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    require_once __DIR__ . "/../helpers/Session.php";
-    require_once __DIR__ . "/../helpers/env.php";
-
-    Env::load();
-    Session::start();
-    Session::destroy();
-
-    $baseUrl = Env::get("BASE_URL", "http://localhost/mealify/public");
-    header("Location: " . $baseUrl . "/login.php");
-    exit;
-}
 
 

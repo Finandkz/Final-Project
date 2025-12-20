@@ -16,6 +16,13 @@ class User {
         $stmt->bind_param("sss", $name, $email, $hash);
         return $stmt->execute();
     }
+    public function updateUnverified($name, $email, $password) {
+        $sql = "UPDATE {$this->table} SET name = ?, password = ? WHERE email = ? AND is_verified = 0";
+        $stmt = $this->conn->prepare($sql);
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param("sss", $name, $hash, $email);
+        return $stmt->execute();
+    }
     public function linkGoogle($name, $email, $googleId, $googleAvatarUrl = null) {
         $u = $this->getByEmail($email);
         if ($u) {

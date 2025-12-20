@@ -1,4 +1,5 @@
 <?php
+ob_start();
 use App\Config\Database;
 use App\Controllers\AuthController;
 use App\Controllers\GoogleController;
@@ -7,6 +8,16 @@ use App\Helpers\Session;
 require_once __DIR__ . "/../vendor/autoload.php";
 
 Session::start();
+if (Session::get('user')) {
+    $u = Session::get('user');
+    session_write_close();
+    if ($u['role'] === 'admin') {
+        header("Location: admin/dashboard.php");
+    } else {
+        header("Location: mahasiswa/mhs_dashboard.php");
+    }
+    exit;
+}
 $db = (new Database())->connect();
 $auth = new AuthController($db);
 $google = new GoogleController($db);
@@ -23,10 +34,11 @@ $errors = [];
       if($res['status'] === 'ok') { 
         $user = $res['user'];
         Session::set('user', $user);
+        session_write_close();
       if ($user['role'] === 'admin') { 
-        header("Location: /mealify/public/admin/dashboard.php"); 
+        header("Location: admin/dashboard.php"); 
       } else { 
-        header("Location: /mealify/public/mahasiswa/mhs_dashboard.php"); 
+        header("Location: mahasiswa/mhs_dashboard.php"); 
       } exit; 
     } else { 
       if($res['message'] === 'NOT_VERIFIED') {
@@ -64,6 +76,13 @@ $googleUrl = $google->getAuthUrl();
         <p class="muted">Login to continue your healthy journey</p>
         <?php if($errors): ?>
           <div class="alert"><?= implode("<br>", array_map('htmlspecialchars',$errors)) ?></div>
+        <?php endif; ?>
+
+        <?php if($success = Session::get('login_success')): ?>
+          <div class="success" style="background:#ecfdf5; color:#059669; padding:12px; border-radius:8px; margin-bottom:20px; font-size:14px; border:1px solid #10b981;">
+            <?= htmlspecialchars($success) ?>
+          </div>
+          <?php Session::remove('login_success'); ?>
         <?php endif; ?>
 
         <form method="post">

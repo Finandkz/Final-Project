@@ -49,4 +49,3 @@ class Session {
         return hash_equals($_SESSION['csrf_token'], $token);
     }
 }
-?>
