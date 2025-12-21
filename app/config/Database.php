@@ -16,14 +16,11 @@ class Database {
         );
 
         if ($conn->connect_error) {
-            // Log the error to a file instead of echoing it to the user
             $logFile = __DIR__ . '/../../logs/error.log';
             if (!is_dir(dirname($logFile))) {
                 @mkdir(dirname($logFile), 0777, true);
             }
             error_log('[' . date('Y-m-d H:i:s') . '] Database Connection Error: ' . $conn->connect_error . PHP_EOL, 3, $logFile);
-            
-            // Show a generic maintenance page
             http_response_code(503);
             if (is_file(__DIR__ . '/../../public/maintenance.php')) {
                 require_once __DIR__ . '/../../public/maintenance.php';
