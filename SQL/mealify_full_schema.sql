@@ -104,7 +104,7 @@ CREATE TABLE `meal_plans` (
   `meal_time` datetime DEFAULT NULL,
   `notes` text,
   `is_notified` tinyint(1) DEFAULT '0',
-  `created_at?` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `fk_meal_plans_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
@@ -151,9 +151,9 @@ CREATE TABLE `reset_password` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` varchar(150) NOT NULL,
   `token` varchar(255) NOT NULL,
-  `expires_at?` datetime NOT NULL,
+  `expires_at` datetime NOT NULL,
   `is_used` tinyint(1) DEFAULT '0',
-  `created_at?` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `token` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -166,6 +166,7 @@ CREATE TABLE `user_activity` (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int UNSIGNED NOT NULL,
   `activity_date` date NOT NULL,
+  `is_freeze` tinyint(1) DEFAULT '0',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq_user_day` (`user_id`,`activity_date`),
