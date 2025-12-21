@@ -1,30 +1,24 @@
 <?php
 namespace App\Classes;
-
 use App\Helpers\Env;
 
-class ApiClientEdamam
-{
+class ApiClientEdamam{
     private $baseUrl;
     private $appId;
     private $appKey;
     private $cachePath;
     private $ttl;
 
-    public function __construct()
-    {
+    public function __construct(){
         if (class_exists('Env')) {
             Env::load();
         }
-
         $this->baseUrl = Env::get(
             "EDAMAM_RECIPE_API_URL",
             "https://api.edamam.com/api/recipes/v2"
         );
-
         $this->appId  = Env::get("EDAMAM_RECIPE_APP_ID");
         $this->appKey = Env::get("EDAMAM_RECIPE_APP_KEY");
-
         $this->ttl       = Env::get("CACHE_TTL", 3600);
         $this->cachePath = __DIR__ . "/../../cache/";
 
@@ -33,8 +27,7 @@ class ApiClientEdamam
         }
     }
 
-    private function buildUrl($params)
-    {
+    private function buildUrl($params){
         if (!empty($params["uri"])) {
             $query = [
                 "type"    => "public",
@@ -42,7 +35,6 @@ class ApiClientEdamam
                 "app_key" => $this->appKey,
                 "uri"     => $params["uri"],
             ];
-
             return rtrim($this->baseUrl, "/") . "/by-uri?" . http_build_query($query);
         }
 
@@ -63,7 +55,6 @@ class ApiClientEdamam
 
         return rtrim($this->baseUrl, "/") . "?" . http_build_query($query);
     }
-
     private function getCacheFile($params)
     {
         return $this->cachePath . "cache_" . md5(json_encode($params)) . ".json";
@@ -72,10 +63,8 @@ class ApiClientEdamam
     public function fetch($params)
     {
         $cacheFile = $this->getCacheFile($params);
-
         $debugUrl = $this->buildUrl($params);
         @file_put_contents($this->cachePath . "last_recipe_url.txt", $debugUrl);
-
         if (file_exists($cacheFile)) {
             $modified = filemtime($cacheFile);
             if ($this->ttl > 0 && (time() - $modified < (int)$this->ttl)) {
@@ -85,11 +74,9 @@ class ApiClientEdamam
                 }
             }
         }
-
         if (empty($this->appId) || empty($this->appKey)) {
             return ["hits" => []];
         }
-
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_URL            => $debugUrl,
@@ -112,9 +99,7 @@ class ApiClientEdamam
         if (!is_array($json)) {
             return ["hits" => []];
         }
-
         @file_put_contents($cacheFile, json_encode($json));
-
         return $json;
     }
 }

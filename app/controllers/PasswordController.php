@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers;
-
 use App\Models\ResetPassword;
 use App\Models\User;
 use App\Helpers\Mailer;
@@ -29,15 +28,12 @@ class PasswordController {
 
         $token = bin2hex(random_bytes(32));
         $this->rp->createToken($email, $token, 30);
-
         $baseUrl = Env::get("BASE_URL");
         $link = $baseUrl . "/reset-password.php?token=" . urlencode($token);
-
         $body = "Password reset request<br>
                  Please <a href='{$link}'>click here</a> to reset your password.
                  This is valid for 30 minutes only.
                  Please ignore this message if you are not requesting a reset.";
-
         $sent = Mailer::send($email, "Mealify - Reset Password", $body);
 
         if ($sent) {

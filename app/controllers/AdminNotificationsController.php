@@ -1,17 +1,14 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
 
-class AdminNotificationsController
-{
+class AdminNotificationsController{
     private $conn;
     private $admin;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->admin = Session::get('user');
         if (!$this->admin || ($this->admin['role'] ?? '') !== 'admin') {
@@ -24,8 +21,7 @@ class AdminNotificationsController
         $this->conn = $db->connect();
     }
 
-    public function all(): array
-    {
+    public function all(): array{
         $stmt = $this->conn->prepare("SELECT * FROM admin_notifications ORDER BY created_at DESC");
         $stmt->execute();
         $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -33,8 +29,7 @@ class AdminNotificationsController
         return $res;
     }
 
-    public function find(int $id): ?array
-    {
+    public function find(int $id): ?array{
         $stmt = $this->conn->prepare("SELECT * FROM admin_notifications WHERE id = ? LIMIT 1");
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -43,8 +38,7 @@ class AdminNotificationsController
         return $r ?: null;
     }
 
-    public function save(array $data): array
-    {
+    public function save(array $data): array{
         $errors = [];
         $id = isset($data['id']) && $data['id'] !== '' ? (int)$data['id'] : null;
         $name = trim($data['name'] ?? '');
@@ -83,8 +77,7 @@ class AdminNotificationsController
         return ['ok' => empty($errors), 'errors' => $errors];
     }
 
-    public function delete(int $id): bool
-    {
+    public function delete(int $id): bool{
         $stmt = $this->conn->prepare("DELETE FROM admin_notifications WHERE id = ?");
         $stmt->bind_param("i", $id);
         $ok = $stmt->execute();

@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers;
-
 use App\Models\User;
 use App\Models\OTP;
 use App\Helpers\Mailer;
@@ -25,7 +24,6 @@ class AuthController {
                 'message' => 'Passwords must be at least 8 characters long and contain at least 1 capital letter.'
             ];
         }
-
         $existingUser = $this->user->getByEmail($email);
         if($existingUser) {
              if((int)$existingUser['is_verified'] === 1) {
@@ -37,9 +35,7 @@ class AuthController {
             if(!$created) 
                 return ['status'=>'error','message'=>'DB ERROR'];
         }
-
         $this->otp->invalidateAllByEmail($email);
-
         $code = random_int(100000, 999999);
         $otpCreated = $this->otp->create($email, (string)$code, 5);
         if (!$otpCreated) {
@@ -80,6 +76,3 @@ class AuthController {
         return ['status'=>'ok','user'=>$res]; 
     }
 }
-
-
-

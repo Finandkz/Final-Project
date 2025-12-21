@@ -1,24 +1,19 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Classes\ApiClientEdamamNutrition;
 use App\Config\Database;
 use App\Helpers\Env;
 use Throwable;
 
-class NutritionController
-{
-    public function handle(): array
-    {
+class NutritionController{
+    public function handle(): array{
         Session::start();
-
         $user = Session::get("user");
         if (!$user) {
             header("Location: ../public/login.php");
             exit;
         }
-
         $errors = [];
         $result = null;
         $ingredientsText = '';
@@ -45,7 +40,6 @@ class NutritionController
                 $meal_name = trim($_POST['meal_name'] ?? '');
                 $meal_type = trim($_POST['meal_type'] ?? ''); 
                 $log_date  = trim($_POST['log_date'] ?? date('Y-m-d'));
-
                 $calories = isset($_POST['calories']) ? (float)$_POST['calories'] : null;
                 $protein  = isset($_POST['protein'])  ? (float)$_POST['protein']  : null;
                 $fat      = isset($_POST['fat'])      ? (float)$_POST['fat']      : null;
@@ -64,7 +58,6 @@ class NutritionController
                         "INSERT INTO meal_logs (user_id, meal_type, meal_name, log_date, logged_at, calories, protein, carbs, fat)
                          VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)"
                     );
-
                     $calParam = $calories !== null ? $calories : 0.0;
                     $protParam = $protein !== null ? $protein : 0.0;
                     $carbParam = $carbs !== null ? $carbParam : 0.0;
@@ -110,7 +103,6 @@ class NutritionController
                         $errors[] = 'Failed to save meal to database.';
                     }
                 }
-
                 $result = [
                     'ingredients' => [],
                 ];
@@ -177,8 +169,7 @@ class NutritionController
         ];
     }
 
-    private function normalizeMealType(string $input): ?string
-    {
+    private function normalizeMealType(string $input): ?string{
         $input = strtolower($input);
         switch ($input) {
             case 'breakfast':

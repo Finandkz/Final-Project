@@ -1,24 +1,19 @@
 <?php
 namespace App\Classes;
-
 use App\Helpers\Env;
-
-class ApiClientEdamamFood
-{
+class ApiClientEdamamFood{
     private $baseUrl;
     private $appId;
     private $appKey;
     private $cachePath;
     private $ttl;
 
-    public function __construct()
-    {
+    public function __construct(){
         Env::load();
         $this->baseUrl = "https://api.edamam.com/api/food-database/v2/parser";
         $this->appId  = Env::get('EDAMAM_FOOD_APP_ID', Env::get('EDAMAM_RECIPE_APP_ID'));
         $this->appKey = Env::get('EDAMAM_FOOD_APP_KEY', Env::get('EDAMAM_RECIPE_APP_KEY'));
         $this->ttl = (int) Env::get('CACHE_TTL', 3600);
-
         $this->cachePath = __DIR__ . "/../../cache/";
         if (!is_dir($this->cachePath)) @mkdir($this->cachePath, 0755, true);
     }
@@ -26,9 +21,7 @@ class ApiClientEdamamFood
     private function cacheFile($q) {
         return $this->cachePath . 'food_' . md5($q) . '.json';
     }
-
-    public function searchFoodRaw(string $query): array
-    {
+    public function searchFoodRaw(string $query): array{
         $q = trim($query);
         if ($q === '') return [];
 
@@ -38,7 +31,6 @@ class ApiClientEdamamFood
             $d = json_decode($c, true);
             if (is_array($d)) return $d;
         }
-
         if (empty($this->appId) || empty($this->appKey)) {
             return [];
         }
@@ -70,8 +62,7 @@ class ApiClientEdamamFood
         return [];
     }
 
-    public function getHints(string $query): array
-    {
+    public function getHints(string $query): array{
         $raw = $this->searchFoodRaw($query);
         $hints = [];
 
@@ -109,22 +100,17 @@ class ApiClientEdamamFood
         return $hints;
     }
 
-    public function chooseBest(string $query, array $hints): array
-    {
+    public function chooseBest(string $query, array $hints): array{
         $q = mb_strtolower(trim($query));
         if ($q === '' || empty($hints)) {
             return ['label' => null, 'nutrients' => [], 'confidence' => 0];
         }
-
         $best = null;
         $bestScore = -1;
-
         foreach ($hints as $h) {
             $label = mb_strtolower($h['label'] ?? '');
             if ($label === '') continue;
-
             $score = 0;
-
             if ($label === $q) {
                 $score = 100;
             } elseif (mb_strpos($label, $q) !== false || mb_strpos($q, $label) !== false) {
@@ -151,8 +137,7 @@ class ApiClientEdamamFood
         ];
     }
 
-    public function getNutrientsBest(string $query): array
-    {
+    public function getNutrientsBest(string $query): array{
         $hints = $this->getHints($query);
         if (empty($hints)) {
             return ['cal'=>null,'prot'=>null,'carb'=>null,'fat'=>null,'label'=>null,'confidence'=>0];
@@ -160,7 +145,6 @@ class ApiClientEdamamFood
 
         $chosen = $this->chooseBest($query, $hints);
         $nut = $chosen['nutrients'] ?? [];
-
         $cal = null;
         if (isset($nut['ENERC_KCAL'])) $cal = (float)$nut['ENERC_KCAL'];
         elseif (isset($nut['ENERC_KCAL']['quantity'])) $cal = (float)$nut['ENERC_KCAL']['quantity'];

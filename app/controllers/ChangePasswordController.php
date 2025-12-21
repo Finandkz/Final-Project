@@ -1,17 +1,14 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
 
-class ChangePasswordController
-{
+class ChangePasswordController{
     private $conn;
     private $user;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->user = Session::get('user');
 
@@ -24,16 +21,13 @@ class ChangePasswordController
         Env::load();
         $tz = Env::get('APP_TIMEZONE', 'Asia/Jakarta');
         @date_default_timezone_set($tz);
-
         $db = new Database();
         $this->conn = $db->connect();
     }
 
-    public function handle(): array
-    {
+    public function handle(): array{
         $errors  = [];
         $success = null;
-
         $userId = (int)$this->user['id'];
         $stmt = $this->conn->prepare(
             "SELECT password, google_id FROM users WHERE id = ?"
@@ -48,7 +42,6 @@ class ChangePasswordController
             $errors[] = "User data not found.";
             return compact('errors', 'success');
         }
-
         $storedHash = $row['password'];
         $googleId   = $row['google_id'];
 
@@ -87,7 +80,6 @@ class ChangePasswordController
 
             if (!$errors) {
                 $newHash = password_hash($new, PASSWORD_DEFAULT);
-
                 $stmt = $this->conn->prepare(
                     "UPDATE users SET password = ? WHERE id = ?"
                 );
@@ -106,7 +98,6 @@ class ChangePasswordController
                 $stmt->close();
             }
         }
-
         return compact('errors', 'success');
     }
 }

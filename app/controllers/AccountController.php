@@ -1,21 +1,16 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
 use Throwable;
-
-class AccountController
-{
+class AccountController{
     private $conn;
     private $user;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->user = Session::get('user');
-
         if (!$this->user) {
             session_write_close();
             header("Location: ../login.php");
@@ -25,17 +20,14 @@ class AccountController
         Env::load();
         $tz = Env::get('APP_TIMEZONE', 'Asia/Jakarta');
         @date_default_timezone_set($tz);
-
         $db = new Database();
         $this->conn = $db->connect();
     }
 
-    public function handle(): array
-    {
+    public function handle(): array{
         $errors  = [];
         $success = null;
         $userId  = (int)$this->user['id'];
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!Session::validateCsrfToken($_POST['_csrf'] ?? '')) {
                 $errors[] = "Invalid CSRF token. Please refresh the page.";
@@ -45,9 +37,7 @@ class AccountController
                     'success' => $success,
                 ];
             }
-
             $action = $_POST['action'] ?? '';
-
             if ($action === 'update-profile') {
                 $this->handleUpdateProfile($userId, $errors, $success);
             } elseif ($action === 'delete-account') {
@@ -58,13 +48,10 @@ class AccountController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'upload-avatar') {
             $this->handleUploadAvatar($userId, $errors, $success);
         }
-
         $row = $this->getUserData($userId);
-
         if (!$row) {
             $errors[] = "User data not found.";
         }
-
         return [
             'userRow' => $row,
             'errors'  => $errors,
@@ -72,8 +59,7 @@ class AccountController
         ];
     }
 
-    private function getUserData(int $userId): ?array
-    {
+    private function getUserData(int $userId): ?array{
         $stmt = $this->conn->prepare(
             "SELECT id, name, email, role, weight_kg, goal_diet, goal_bulking, avatar, google_avatar_url
             FROM users
@@ -87,8 +73,7 @@ class AccountController
         return $row;
     }
 
-    private function handleUpdateProfile(int $userId, array &$errors, ?string &$success): void
-    {
+    private function handleUpdateProfile(int $userId, array &$errors, ?string &$success): void{
         $name      = trim($_POST['name'] ?? '');
         $email     = trim($_POST['email'] ?? '');
         $weightStr = trim($_POST['weight_kg'] ?? '');
@@ -102,7 +87,6 @@ class AccountController
         if ($email === '') {
             $errors[] = 'Email is required.';
         }
-
         $weight = null;
         if ($weightStr !== '') {
             if (!ctype_digit($weightStr)) {

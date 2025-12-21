@@ -1,18 +1,15 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
 use DateTime;
 
-class MealPlannerController
-{
+class MealPlannerController{
     private $conn;
     private $user;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->user = Session::get('user');
 
@@ -24,19 +21,16 @@ class MealPlannerController
         Env::load();
         $tz = Env::get('APP_TIMEZONE', 'Asia/Jakarta');
         @date_default_timezone_set($tz);
-
         $db = new Database();
         $this->conn = $db->connect();
     }
 
-    public function index(): array
-    {
+    public function index(): array{
         $errors = [];
         $success = null;
 
         if (isset($_GET['action'], $_GET['id']) && $_GET['action'] === 'delete') {
             $id = (int) $_GET['id'];
-
             $stmt = $this->conn->prepare(
                 "DELETE FROM meal_plans WHERE id = ? AND user_id = ?"
             );
@@ -73,14 +67,11 @@ class MealPlannerController
         ];
     }
 
-    public function form(): array
-    {
+    public function form(): array{
         $errors  = [];
         $success = null;
-
         $id     = isset($_GET['id']) ? (int) $_GET['id'] : null;
         $isEdit = $id !== null;
-
         $food_name = '';
         $meal_type = '';
         $time_only = '';
@@ -94,7 +85,6 @@ class MealPlannerController
 
             $id     = isset($_POST['id']) && $_POST['id'] !== '' ? (int) $_POST['id'] : null;
             $isEdit = $id !== null;
-
             $food_name = trim($_POST['food_name'] ?? '');
             $meal_type = trim($_POST['meal_type'] ?? '');
             $time_only = trim($_POST['meal_time'] ?? '');
@@ -103,7 +93,6 @@ class MealPlannerController
             if ($food_name === '') $errors[] = 'Name of food must be filled in.';
             if ($time_only === '') $errors[] = 'Meal times must be filled in.';
             if ($meal_type === '') $errors[] = 'The meal time type must be selected.';
-
             $planned_at_str = null;
             $planned_at_obj = null;
 

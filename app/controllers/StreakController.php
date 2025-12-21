@@ -1,6 +1,5 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
@@ -8,13 +7,11 @@ use App\Classes\ApiClientEdamamFood;
 use DateTime;
 use Throwable;
 
-class StreakController
-{
+class StreakController{
     private $conn;
     private $user;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->user = Session::get('user');
 
@@ -30,11 +27,9 @@ class StreakController
         $this->conn = $db->connect();
     }
 
-    public function handle(): array
-    {
+    public function handle(): array{
         $errors = [];
         $success = null;
-
         $userId = (int)$this->user['id'];
         $today  = (new DateTime('today'))->format('Y-m-d');
         
@@ -133,7 +128,6 @@ class StreakController
         $stmt->bind_result($freezeLeft);
         $stmt->fetch();
         $stmt->close();
-
         $year = (int)($_GET['year'] ?? date('Y'));
         $activeDates = $this->getActiveDates($userId, $year);
 
@@ -149,8 +143,7 @@ class StreakController
         ];
     }
 
-    private function refillMonthlyFreeze(int $userId): void
-    {
+    private function refillMonthlyFreeze(int $userId): void{
         $stmt = $this->conn->prepare(
             "SELECT last_freeze_refill FROM users WHERE id = ?"
         );
@@ -177,8 +170,7 @@ class StreakController
         $stmt->close();
     }
 
-    private function isTodayActive(int $userId, string $today): bool
-    {
+    private function isTodayActive(int $userId, string $today): bool{
         $stmt = $this->conn->prepare(
             "SELECT 1 FROM user_activity
             WHERE user_id = ? AND activity_date = ?
@@ -193,8 +185,7 @@ class StreakController
         return $active;
     }
 
-    private function normalizeMealType(string $m): ?string
-    {
+    private function normalizeMealType(string $m): ?string{
         return match (strtolower($m)) {
             'breakfast','sarapan' => 'breakfast',
             'lunch','makan siang','makan_siang' => 'lunch',
@@ -203,8 +194,7 @@ class StreakController
         };
     }
 
-    private function isWithinValidWindow(string $type, DateTime $now): bool
-    {
+    private function isWithinValidWindow(string $type, DateTime $now): bool{
         $t = $now->format('H:i');
         return match ($type) {
             'breakfast' => $t >= '05:00' && $t <= '11:00',
@@ -214,8 +204,7 @@ class StreakController
         };
     }
 
-    private function updateDailyActivity(int $userId, string $date): void
-    {
+    private function updateDailyActivity(int $userId, string $date): void{
         $stmt = $this->conn->prepare(
             "SELECT COUNT(DISTINCT meal_type) cnt
              FROM meal_logs WHERE user_id = ? AND log_date = ?"
@@ -236,8 +225,7 @@ class StreakController
         }
     }
 
-    private function getTodayLogs(int $userId, string $today): array
-    {
+    private function getTodayLogs(int $userId, string $today): array{
         $stmt = $this->conn->prepare(
             "SELECT meal_type, meal_name, logged_at
              FROM meal_logs WHERE user_id = ? AND log_date = ?"
@@ -254,8 +242,7 @@ class StreakController
         return $logs;
     }
 
-    private function getActiveDates(int $userId, int $year): array
-    {
+    private function getActiveDates(int $userId, int $year): array{
         $stmt = $this->conn->prepare(
             "SELECT activity_date FROM user_activity
              WHERE user_id = ? AND YEAR(activity_date) = ?"
@@ -270,8 +257,7 @@ class StreakController
         return $dates;
     }
 
-    private function calculateStreak(int $userId): int
-    {
+    private function calculateStreak(int $userId): int{
         $stmt = $this->conn->prepare(
             "SELECT streak_freeze FROM users WHERE id = ?"
         );
@@ -341,8 +327,7 @@ class StreakController
         return $streak;
     }
 
-    private function reconcileStreak(int $userId): void
-    {
+    private function reconcileStreak(int $userId): void{
         if (!$this->shouldProcessStreak($userId)) {
             return;
         }
@@ -392,8 +377,7 @@ class StreakController
         $this->updateLastStreakCheck($userId);
     }
 
-    private function shouldProcessStreak(int $userId): bool
-    {
+    private function shouldProcessStreak(int $userId): bool{
         $stmt = $this->conn->prepare(
             "SELECT last_streak_check FROM users WHERE id = ?"
         );
@@ -401,13 +385,11 @@ class StreakController
         $stmt->execute();
         $last = $stmt->get_result()->fetch_assoc()['last_streak_check'] ?? null;
         $stmt->close();
-
         $yesterday = date('Y-m-d', strtotime('yesterday'));
         return !$last || date('Y-m-d', strtotime($last)) !== $yesterday;
     }
 
-    private function updateLastStreakCheck(int $userId): void
-    {
+    private function updateLastStreakCheck(int $userId): void{
         $stmt = $this->conn->prepare(
             "UPDATE users SET last_streak_check = ? WHERE id = ?"
         );
@@ -417,8 +399,7 @@ class StreakController
         $stmt->close();
     }
 
-    private function fetchNutritionFromFoodDb(string $foodName): array
-    {
+    private function fetchNutritionFromFoodDb(string $foodName): array{
         try {
             $api = new ApiClientEdamamFood();
             $best = $api->getNutrientsBest($foodName);

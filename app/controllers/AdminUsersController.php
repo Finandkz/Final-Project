@@ -1,17 +1,14 @@
 <?php
 namespace App\Controllers;
-
 use App\Helpers\Session;
 use App\Config\Database;
 use App\Helpers\Env;
 
-class AdminUsersController
-{
+class AdminUsersController{
     private $conn;
     private $admin;
 
-    public function __construct()
-    {
+    public function __construct(){
         Session::start();
         $this->admin = Session::get('user');
 
@@ -24,8 +21,7 @@ class AdminUsersController
         $this->conn = $db->connect();
     }
 
-    public function list(): array
-    {
+    public function list(): array{
         $stmt = $this->conn->prepare(
             "SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC"
         );
@@ -35,8 +31,7 @@ class AdminUsersController
         return $users;
     }
 
-    public function get(int $id): ?array
-    {
+    public function get(int $id): ?array{
         $stmt = $this->conn->prepare(
             "SELECT id, name, email, role FROM users WHERE id = ? LIMIT 1"
         );
@@ -47,8 +42,7 @@ class AdminUsersController
         return $user ?: null;
     }
 
-    public function update(int $id, array $data): array
-    {
+    public function update(int $id, array $data): array{
         $current = $this->get($id);
 
         if (!$current) {
@@ -91,8 +85,7 @@ class AdminUsersController
             : ['ok' => false, 'errors' => ['Failed to save data']];
     }
 
-    public function delete(int $id): bool
-    {
+    public function delete(int $id): bool{
         if ($id === (int)($this->admin['id'] ?? 0)) {
             return false;
         }
