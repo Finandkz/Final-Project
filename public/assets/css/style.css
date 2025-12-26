@@ -332,18 +332,40 @@ input:focus {
 }
 
 @media (max-width: 900px) {
+    body {
+        padding: 20px 0;
+        align-items: flex-start;
+    }
+
     .auth-wrap {
-        width: 95%;
+        width: 92%;
         height: auto;
         flex-direction: column;
+        margin: 20px auto;
     }
 
     .auth-left {
-        height: 200px;
+        height: 180px;
     }
 
     .auth-right {
         width: 100%;
-        padding: 32px 24px;
+        padding: 30px 20px;
     }
+
+    .card h1 {
+        font-size: 28px;
+        margin-top: 10px;
+    }
+}
+
+/* Common Mobile Utilities */
+@media (max-width: 768px) {
+    .hide-on-mobile { display: none !important; }
+    .show-on-mobile { display: block !important; }
+    .flex-mobile-column { flex-direction: column !important; }
+    .text-mobile-center { text-align: center !important; }
+    .p-mobile-0 { padding: 0 !important; }
+    .m-mobile-0 { margin: 0 !important; }
+    .w-mobile-100 { width: 100% !important; }
 }

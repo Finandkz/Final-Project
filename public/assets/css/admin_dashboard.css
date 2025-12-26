@@ -597,36 +597,61 @@ body {
 
 @media (max-width: 768px) {
     .admin-content {
-        padding: 20px;
+        padding: 15px;
     }
 
     .admin-header {
-        padding: 20px;
+        padding: 15px;
+        margin-bottom: 15px;
     }
 
     .page-title,
     .admin-content > h1 {
-        font-size: 22px;
+        font-size: 20px;
+    }
+
+    .subtitle, .small-muted {
+        font-size: 13px;
     }
 
     .controls-row {
         flex-direction: column;
         align-items: stretch;
+        padding: 15px;
     }
 
     .controls-row label {
         width: 100%;
+        font-size: 13px;
     }
 
     .controls-row input[type="date"],
+    .controls-row select,
     .btn-primary {
         width: 100%;
+        margin: 5px 0;
+    }
+
+    /* Handle Table responsiveness */
+    .admin-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -5px;
+        padding-bottom: 10px;
+    }
+
+    .admin-table {
+        min-width: 600px; /* Ensure table doesn't collapse too much */
     }
 
     .admin-table thead th,
     .admin-table tbody td {
-        padding: 10px;
+        padding: 12px 10px;
         font-size: 12px;
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
     }
 }
 

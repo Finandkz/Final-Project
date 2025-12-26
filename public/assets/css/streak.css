@@ -578,26 +578,51 @@ body {
 @media (max-width: 768px) {
     .streak-meals {
         grid-template-columns: 1fr; 
+        gap: 15px;
     }
 
     #streak-calendar {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .header {
-        flex-direction: row;
-        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px 15px;
+        gap: 10px;
         justify-content: space-between;
-        gap: 0;
-        padding: 15px 20px;
+    }
+
+    .header-left {
+        order: 1;
+    }
+
+    .back-dashboard {
+        order: 2;
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+
+    .header-center {
+        display: block;
+        order: 3;
+        width: 100%;
+        margin: 5px 0 0 0;
+        max-width: none;
+    }
+
+    .search-box input {
+        padding: 10px;
+        font-size: 14px;
     }
 
     .brand {
         font-size: 20px;
     }
-    
-    .header-center {
-        display: none;
+
+    .logo {
+        width: 36px;
+        height: 36px;
     }
     
     .streak-count {
@@ -605,23 +630,26 @@ body {
     }
 
     .streak-title {
-        font-size: 24px;
+        font-size: 22px;
+        letter-spacing: 1px;
     }
     
     .streak-main {
-        padding: 25px 20px 60px;
+        padding: 25px 15px;
+        border-radius: 20px;
     }
-}
 
-.footer {
-    background: #043927;
-    color: white;
-    padding: 20px 5%;
-    text-align: center;
-    font-size: 14px;
-    margin-top: auto;
-    flex-shrink: 0;
-    box-shadow: 0 -5px 20px rgba(8, 209, 142, 0.3);
-    position: relative;
-    z-index: 10;
+    .streak-summary {
+        padding: 20px 15px;
+        margin-bottom: 25px;
+    }
+
+    .streak-desc {
+        font-size: 13px;
+    }
+
+    .footer {
+        padding: 15px 20px;
+        font-size: 13px;
+    }
 }

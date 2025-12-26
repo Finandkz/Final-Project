@@ -558,35 +558,49 @@ body {
 
 @media (max-width: 768px) {
     .admin-content {
-        padding: 20px;
+        padding: 15px;
     }
 
     .admin-header {
-        padding: 20px;
+        padding: 20px 15px;
+        margin-bottom: 15px;
     }
 
     .page-title,
     .admin-content > h1 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
-    .controls-row {
+    .controls-row, .filter-card {
         flex-direction: column;
-        align-items: stretch;
+        align-items: stretch !important;
+        gap: 15px;
+        padding: 15px !important;
     }
 
-    .controls-row label {
+    .filter-group {
         width: 100%;
     }
 
-    .controls-row input[type="date"],
-    .btn-primary {
+    .btn-primary-modern, .export-btn {
         width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .admin-table-container, .data-table-card {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -5px;
+    }
+
+    .admin-table {
+        min-width: 600px;
     }
 
     .admin-table thead th,
     .admin-table tbody td {
-        padding: 10px;
+        padding: 12px 10px;
         font-size: 12px;
     }
 }

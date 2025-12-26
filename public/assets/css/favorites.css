@@ -434,32 +434,44 @@ body {
     .footer {
         margin-top: auto;
     }
-    .fav-header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 20px;
-    }
 
     .header {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         gap: 0;
-        padding: 15px 20px;
+        padding: 12px 15px;
     }
+
     .brand {
         font-size: 20px;
     }
 
+    .logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .fav-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
     .fav-title {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .fav-page {
+        padding: 20px 15px 40px;
     }
     
     .fav-grid {
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 15px;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+        gap: 12px;
     }
 
     .fav-content {
@@ -467,15 +479,32 @@ body {
     }
     
     .fav-card-img {
-        height: 140px; 
+        height: 120px; 
+    }
+
+    .fav-card-body {
+        padding: 12px;
+    }
+
+    .fav-card-title {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .fav-card-cal, .fav-card-src {
+        font-size: 11px;
+    }
+
+    .fav-view-link {
+        width: 100%;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 11px;
     }
 
     .fav-empty {
-        font-size: 16px;
-        padding: 60px 20px;
-    }
-    .fav-card:active {
-        transform: scale(0.97);
+        font-size: 15px;
+        padding: 40px 10px;
     }
 }
 

@@ -520,24 +520,84 @@ h1, h2, h3, .brand {
 }
 
 @media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        padding: 12px 15px;
+        gap: 10px;
+    }
+
+    .header-left {
+        order: 1;
+    }
+
+    .header-right {
+        order: 2;
+    }
+
     .header-center {
-        display: none;
+        display: flex;
+        order: 3;
+        width: 100%;
+        margin: 5px 0 0 0;
+        max-width: none;
+        gap: 8px;
+    }
+
+    .search-box {
+        padding: 8px 15px;
+    }
+
+    .brand {
+        font-size: 20px;
+    }
+
+    .logo {
+        width: 36px;
+        height: 36px;
     }
     
-    .brand {
-        font-size: 18px;
+    .banner {
+        padding: 20px 5%;
+    }
+
+    .menu-container {
+        gap: 15px;
+        padding: 10px 5%;
     }
     
     .menu-box {
-        width: 100%;
-        flex-direction: row;
-        padding: 20px;
+        width: calc(50% - 15px);
+        min-width: 140px;
+        padding: 20px 15px;
+        flex-direction: column;
     }
     
     .menu-box .icon {
-        width: 60px;
-        height: 60px;
-        font-size: 28px;
+        width: auto;
+        height: auto;
+        font-size: 32px;
+        margin-bottom: 5px;
+    }
+
+    .menu-box span {
+        font-size: 14px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    .card-img {
+        height: 140px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 15px;
     }
 }
 

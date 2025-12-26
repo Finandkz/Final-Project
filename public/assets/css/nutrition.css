@@ -527,6 +527,7 @@ body {
         flex: 1 0 auto;
         display: flex;
         flex-direction: column;
+        min-height: 100dvh;
     }
 
     .footer {
@@ -536,28 +537,51 @@ body {
         margin-bottom: 0 !important;
     }
     .header {
-        flex-direction: row;
-        align-items: center;
+        flex-wrap: wrap;
+        padding: 12px 15px;
+        gap: 10px;
         justify-content: space-between;
-        gap: 0;
-        padding: 15px 20px;
+    }
+
+    .header-left {
+        order: 1;
+    }
+
+    .back-dashboard {
+        order: 2;
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+
+    .header-center {
+        display: block;
+        order: 3;
+        width: 100%;
+        margin: 5px 0 0 0;
+        max-width: none;
+    }
+
+    .search-box input {
+        padding: 10px;
+        font-size: 14px;
     }
 
     .brand {
         font-size: 20px;
     }
 
-    .header-center {
-        display: none;
-    }
-
-    .back-dashboard {
-        padding: 8px 18px;
-        font-size: 13px;
+    .logo {
+        width: 36px;
+        height: 36px;
     }
 
     .nutri-page {
-        padding: 20px 14px 0;
+        padding: 20px 14px 40px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 0 !important;
     }
 
     .nutri-main {
@@ -576,7 +600,7 @@ body {
     }
 
     .nutri-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 24px;
     }
 
@@ -609,29 +633,19 @@ body {
     }
 
     .nutri-table-wrap {
-        padding: 20px;
+        padding: 15px;
+        margin: 0 -10px;
+        border-radius: 12px;
     }
 
     .nutri-table th,
     .nutri-table td {
-        padding: 14px;
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .footer {
+        padding: 15px 20px;
         font-size: 13px;
-    }
-}
-@media (max-width: 768px) {
-    .nutri-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .nutri-actions {
-        flex-direction: column;
-    }
-
-    .nutri-btn {
-        width: 100%;
-    }
-    
-    .nutri-table-wrap {
-        overflow-x: auto;
     }
 }
