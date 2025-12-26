@@ -644,6 +644,18 @@ body {
     }
 }
 
+@media (max-width: 1024px) {
+    .mp-title {
+        font-size: clamp(2rem, 6vw, 42px);
+    }
+    .mp-page {
+        padding: 2rem 5%;
+    }
+    .mp-main {
+        padding: 2.5rem 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     html, body {
         height: 100%;
@@ -665,81 +677,44 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 20px 15px 40px;
+        padding: 1rem 0.75rem 2rem;
         margin-top: 0 !important;
+    }
+
+    .mp-main {
+        padding: 1.5rem 1rem;
+        border-radius: 16px;
+    }
+
+    .mp-title {
+        font-size: clamp(1.5rem, 8vw, 2rem);
+        text-align: center;
+        margin-bottom: 1.25rem;
     }
 
     .mp-table-wrapper {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin: 0 -10px;
-        border-radius: 10px;
+        margin: 0 -0.5rem;
+        border-radius: 12px;
     }
     
     .mp-table th, .mp-table td {
         white-space: nowrap;
-        padding: 12px 15px;
-        font-size: 13px;
-    }
-
-    .header {
-        flex-wrap: wrap;
-        padding: 12px 15px;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .header-left {
-        order: 1;
-    }
-
-    .back-dashboard {
-        order: 2;
-        padding: 8px 15px;
-        font-size: 13px;
-    }
-
-    .header-center {
-        display: block;
-        order: 3;
-        width: 100%;
-        margin: 5px 0 0 0;
-        max-width: none;
-    }
-
-    .search-box input {
-        padding: 10px;
-        font-size: 14px;
-    }
-    
-    .brand {
-        font-size: 20px;
-    }
-
-    .logo {
-        width: 36px;
-        height: 36px;
-    }
-
-    .mp-title {
-        font-size: 26px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .mp-main {
-        padding: 20px 15px;
+        padding: 1rem 0.75rem;
+        font-size: 0.85rem;
     }
 
     .mp-btn-add {
         width: 100%;
         text-align: center;
-        padding: 12px;
+        padding: 0.9rem;
+        font-size: 0.95rem;
     }
 
     .mp-actions {
         flex-direction: column;
-        gap: 8px;
+        gap: 0.5rem;
     }
 
     .mp-pill {
@@ -748,7 +723,7 @@ body {
     }
 
     .footer {
-        padding: 15px 20px;
-        font-size: 13px;
+        padding: 1rem;
+        font-size: 0.8rem;
     }
 }

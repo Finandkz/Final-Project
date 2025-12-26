@@ -616,27 +616,27 @@ body {
     }
 }
 
+@media (max-width: 1024px) {
+    .account-page {
+        margin: clamp(20px, 5vh, 40px) auto 0;
+        padding: 0 5%;
+        margin-top: 30px;
+    }
+    
+    .account-card {
+        padding: 40px 30px;
+    }
+}
+
 @media (max-width: 768px) {
     html, body {
         height: 100%;
+        min-height: 100dvh;
     }
 
     body {
-        min-height: 100dvh;
         display: flex;
         flex-direction: column;
-    }
-
-    .header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0;
-        padding: 12px 15px;
-    }
-
-    .brand {
-        font-size: 20px;
     }
 
     .main-wrapper {
@@ -649,14 +649,14 @@ body {
     .account-page {
         flex: 1;
         margin-top: 0 !important;
-        padding: 20px 15px 40px;
+        padding: 1.5rem 1rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
 
     .account-card {
-        padding: 30px 20px;
+        padding: 2rem 1.25rem;
         border-radius: 20px;
     }
 
@@ -668,31 +668,23 @@ body {
     .account-field-row {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
-        padding: 12px;
+        gap: 0.5rem;
+        padding: 1rem;
     }
 
     .account-field-label {
         min-width: auto;
-        font-size: 14px;
-    }
-
-    .account-field-value {
-        width: 100%;
-    }
-
-    .account-save-row {
-        text-align: center;
+        font-size: 0.9rem;
     }
 
     .account-save-btn {
         width: 100%;
-        padding: 14px;
+        padding: 1rem;
     }
 
     .footer {
-        padding: 15px 20px;
-        font-size: 13px;
+        padding: 1rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -791,4 +783,3 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
 }
-

@@ -511,10 +511,20 @@ body {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    .nutri-title {
+        font-size: clamp(1.75rem, 5vw, 36px);
+    }
+    .nutri-page {
+        padding: 2rem 5%;
+    }
+    .nutri-main {
+        padding: 2.5rem 1.5rem;
+    }
+}
 
-    html,
-    body {
+@media (max-width: 768px) {
+    html, body {
         height: 100%;
         min-height: 100dvh;
     }
@@ -522,7 +532,6 @@ body {
         display: flex;
         flex-direction: column;
     }
-
     .main-wrapper {
         flex: 1 0 auto;
         display: flex;
@@ -530,53 +539,8 @@ body {
         min-height: 100dvh;
     }
 
-    .footer {
-        padding: 15px 20px;
-        font-size: 13px;
-        margin-top: auto !important;
-        margin-bottom: 0 !important;
-    }
-    .header {
-        flex-wrap: wrap;
-        padding: 12px 15px;
-        gap: 10px;
-        justify-content: space-between;
-    }
-
-    .header-left {
-        order: 1;
-    }
-
-    .back-dashboard {
-        order: 2;
-        padding: 8px 15px;
-        font-size: 13px;
-    }
-
-    .header-center {
-        display: block;
-        order: 3;
-        width: 100%;
-        margin: 5px 0 0 0;
-        max-width: none;
-    }
-
-    .search-box input {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    .brand {
-        font-size: 20px;
-    }
-
-    .logo {
-        width: 36px;
-        height: 36px;
-    }
-
     .nutri-page {
-        padding: 20px 14px 40px;
+        padding: 1.5rem 1rem 3rem;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -585,67 +549,66 @@ body {
     }
 
     .nutri-main {
-        padding: 24px 18px;
+        padding: 1.5rem 1rem;
         border-radius: 16px;
-        margin-bottom: 24px;
+        margin-bottom: 1.5rem;
     }
 
     .nutri-title {
-        font-size: 26px;
+        font-size: clamp(1.5rem, 8vw, 2rem);
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
 
     .nutri-subtitle {
-        font-size: 14px;
-        margin-bottom: 24px;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
     }
 
     .nutri-layout {
         grid-template-columns: 1fr !important;
-        gap: 24px;
+        gap: 1.5rem;
     }
 
     .nutri-textarea-wrapper {
-        padding: 20px;
+        padding: 1.25rem;
     }
 
     .nutri-textarea {
-        min-height: 160px;
-        font-size: 14px;
-    }
-
-    .nutri-actions {
-        flex-direction: column;
-        gap: 12px;
+        min-height: 150px;
+        font-size: 0.95rem;
     }
 
     .nutri-btn {
         width: 100%;
-        padding: 14px;
-        font-size: 15px;
+        padding: 1rem;
+        font-size: 1rem;
     }
+
     .nutri-right {
-        padding: 22px;
+        padding: 1.5rem;
         border-radius: 16px;
     }
 
     .nutri-info-item .value {
-        font-size: 18px;
+        font-size: 1.25rem;
     }
 
     .nutri-table-wrap {
-        padding: 15px;
-        margin: 0 -10px;
+        padding: 1rem;
+        margin: 0 -0.5rem;
         border-radius: 12px;
     }
 
     .nutri-table th,
     .nutri-table td {
-        padding: 12px 10px;
-        font-size: 12px;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
     }
 
     .footer {
-        padding: 15px 20px;
-        font-size: 13px;
+        padding: 1rem;
+        font-size: 0.8rem;
     }
 }

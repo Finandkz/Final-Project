@@ -87,7 +87,7 @@ body {
 .admin-header .page-title,
 .admin-content > h1 {
     margin: 0 0 6px 0;
-    font-size: 26px;
+    font-size: clamp(20px, 5vw, 26px);
     color: #2d3748;
     font-weight: 700;
 }
@@ -173,7 +173,7 @@ body {
 
 .charts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
     gap: 24px;
     margin-bottom: 24px;
 }
@@ -888,4 +888,3 @@ body {
 #analytics-table tr:hover {
     background-color: #f3f4f6;
 }
-

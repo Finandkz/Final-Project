@@ -166,7 +166,7 @@ body {
 }
 
 .hero h1 {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     line-height: 1.1;
     margin-bottom: 1.5rem;
     color: var(--text-main);
@@ -244,11 +244,13 @@ body {
 }
 
 .features {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     justify-content: center;
     gap: 2rem;
     padding: 4rem 5%;
-    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .feature-card {
@@ -256,11 +258,14 @@ body {
     backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 20px;
-    width: 250px;
+    width: 100%;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: transform 0.3s;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .feature-card:hover {
     transform: translateY(-10px);
@@ -313,103 +318,120 @@ footer {
 .card-1 { --rot: -5deg; }
 .card-2 { --rot: 5deg; }
 
-@media (max-width: 768px) {
-    .navbar {
-        padding: 1.5rem 5%;
-    }
-
-    .brand {
-        font-size: 1.5rem;
-        gap: 10px;
-    }
-
-    .nav-logo {
-        width: 45px;
-        height: 45px;
-    }
-
-    .nav-links {
-        gap: 0.8rem;
-    }
-
-    .nav-link {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-    }
-
-    .btn-primary {
-        padding: 0.6rem 1.2rem;
-        font-size: 1rem;
-    }
-
+@media (max-width: 1024px) {
     .hero {
         grid-template-columns: 1fr;
         text-align: center;
-        padding: 4rem 5% 3rem;
-        gap: 3rem;
+        padding-top: 4rem;
     }
-    
-    .hero-content { 
-        padding-right: 0; 
-        margin: 0 auto; 
+    .hero-content {
+        padding-right: 0;
+        margin-bottom: 3rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero h1 {
+        font-size: clamp(2.5rem, 10vw, 3.5rem);
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem 5%;
+        flex-direction: column;
+        gap: 1.2rem;
+        align-items: center;
     }
 
-    .hero h1 { 
-        font-size: 2.8rem; 
-        margin-bottom: 1.5rem;
+    .nav-links {
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
-    .hero p {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
+    .nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
     }
 
     .hero-actions { 
-        justify-content: center; 
         flex-direction: column;
-        gap: 12px;
+        align-items: center;
+        width: 100%;
     }
 
     .btn-hero {
         width: 100%;
-        max-width: 280px;
+        max-width: 320px;
     }
 
     .image-wrapper { 
-        max-width: 320px; 
-        margin: 0 auto; 
+        max-width: 300px; 
     }
 
-    .main-img {
-        border-width: 5px;
-    }
-
-    .float-card {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .card-1 { top: 10px; left: -20px; }
-    .card-2 { bottom: 20px; right: -15px; }
+    .card-1 { left: -10px; }
+    .card-2 { right: -10px; }
 
     .features {
-        padding: 3rem 5%;
-        gap: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 2rem 5%;
+        gap: 1rem;
     }
 
     .feature-card {
-        width: 100%;
-        max-width: 100%;
-        padding: 1.5rem;
+        padding: 1.5rem 1rem;
+        flex: 0 0 calc(50% - 0.5rem);
+        min-width: 150px;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .feature-card p {
+        font-size: 0.85rem;
     }
 }
 
 @media (max-width: 480px) {
     .hero h1 {
-        font-size: 2.2rem;
+        font-size: clamp(1.8rem, 12vw, 2.5rem);
     }
     
     .brand {
         font-size: 1.3rem;
+    }
+
+    .navbar {
+        padding: 0.8rem 3%;
+        align-items: center;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.5rem 1.2rem;
     }
 }
