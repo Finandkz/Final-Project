@@ -72,6 +72,7 @@ body {
     justify-content: center;
     position: relative;
     background: transparent; 
+    flex-shrink: 0;
 }
 
 .card {
@@ -94,13 +95,13 @@ body {
 
 .muted {
     color: #e8e8ec;
-    margin-bottom: 22px;
+    margin-bottom: 12px;
     font-size: 15px;
     font-weight: 500;
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 label {
@@ -286,7 +287,7 @@ input:focus {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 24px 0;
+    margin: 16px 0;
     color: #e2e8f0; 
     font-size: 13px;
     font-weight: 500;

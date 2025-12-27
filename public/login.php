@@ -59,6 +59,7 @@ $googleUrl = $google->getAuthUrl();
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login — Mealify</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +80,7 @@ $googleUrl = $google->getAuthUrl();
         <?php endif; ?>
 
         <?php if($success = Session::get('login_success')): ?>
-          <div class="success" style="background:#ecfdf5; color:#059669; padding:12px; border-radius:8px; margin-bottom:20px; font-size:14px; border:1px solid #10b981;">
+          <div class="success">
             <?= htmlspecialchars($success) ?>
           </div>
           <?php Session::remove('login_success'); ?>
