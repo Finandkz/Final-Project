@@ -16,3 +16,28 @@
 # 3. NONAKTIFKAN DIRECTORY LISTING
 # ===============================
 Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 4. Force HTTPS
+    # Redirect all HTTP traffic to HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # 5. Security Headers
+    
+    # Protect against Clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Protect against XSS (Cross-Site Scripting) attacks
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Prevent MIME-type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
