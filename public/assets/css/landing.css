@@ -16,10 +16,16 @@
     font-family: 'Fredoka', sans-serif;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Critical for mobile to prevent side scroll */
+}
+
 body {
     background: var(--bg-gradient);
     color: var(--text-main);
-    overflow-x: hidden;
     position: relative;
     min-height: 100vh;
 }

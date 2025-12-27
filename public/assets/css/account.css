@@ -649,15 +649,19 @@ body {
     .account-page {
         flex: 1;
         margin-top: 0 !important;
-        padding: 1.5rem 1rem;
+        padding: 1rem;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: center; /* Center Vertically */
+        align-items: center;     /* Center Horizontally */
+        min-height: 70vh;        /* Ensure height */
     }
 
     .account-card {
         padding: 2rem 1.25rem;
         border-radius: 20px;
+        width: 100%;
+        max-width: 400px;
     }
 
     .account-avatar-wrapper {

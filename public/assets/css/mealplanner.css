@@ -676,14 +676,18 @@ body {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         padding: 1rem 0.75rem 2rem;
         margin-top: 0 !important;
+        justify-content: center; /* Center Vertically */
+        align-items: center;     /* Center Horizontally */
+        min-height: 70vh;        /* Ensure height */
     }
 
     .mp-main {
         padding: 1.5rem 1rem;
         border-radius: 16px;
+        width: 100%;
+        max-width: 450px;
     }
 
     .mp-title {

@@ -342,31 +342,67 @@ input:focus {
     }
 
     .auth-wrap {
-        width: 92%;
+        width: 85%;
+        max-width: 300px; 
         min-height: auto;
         height: auto;
         flex-direction: column;
-        margin: 20px auto;
-        border-radius: 20px;
+        margin: 15px auto;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
     }
 
     .auth-left {
-        height: clamp(140px, 25vh, 200px);
+        height: 100px; 
         width: 100%;
+        padding: 5px;
+    }
+
+    .auth-left img {
+        object-fit: contain;
     }
 
     .auth-right {
         width: 100%;
-        padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 30px);
+        padding: 15px; 
     }
 
     .card h1 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
+        font-size: 20px; 
         margin-top: 0;
+        margin-bottom: 5px;
+    }
+    
+    .muted {
+        font-size: 13px; 
+        margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px 14px; 
+        font-size: 13px;
+        margin-bottom: 0;
+    }
+    
+    .input-group {
+        margin-bottom: 12px;
+    }
+    
+    label {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+    
+    .btn, .btn-google {
+        padding: 10px;
+        font-size: 14px;
+        margin-top: 5px;
     }
 }
 
-/* Common Mobile Utilities */
+
 @media (max-width: 768px) {
     .hide-on-mobile { display: none !important; }
     .show-on-mobile { display: block !important; }
