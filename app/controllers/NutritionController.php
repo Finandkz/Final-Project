@@ -6,8 +6,8 @@ use App\Config\Database;
 use App\Helpers\Env;
 use Throwable;
 
-class NutritionController{
-    public function handle(): array{
+class NutritionController {
+    public function handle(): array {
         Session::start();
         $user = Session::get("user");
         if (!$user) {
@@ -36,89 +36,16 @@ class NutritionController{
                 ];
             }
 
-            if (isset($_POST['action']) && $_POST['action'] === 'save_meal') {
-                $meal_name = trim($_POST['meal_name'] ?? '');
-                $meal_type = trim($_POST['meal_type'] ?? ''); 
-                $log_date  = trim($_POST['log_date'] ?? date('Y-m-d'));
-                $calories = isset($_POST['calories']) ? (float)$_POST['calories'] : null;
-                $protein  = isset($_POST['protein'])  ? (float)$_POST['protein']  : null;
-                $fat      = isset($_POST['fat'])      ? (float)$_POST['fat']      : null;
-                $carbs    = isset($_POST['carbs'])    ? (float)$_POST['carbs']    : null;
+            $ingredientsText = trim($_POST['ingredients'] ?? '');
 
-                if ($meal_name === '') $errors[] = 'Food name is empty, cannot be saved.';
-                if ($meal_type === '') $errors[] = 'Select the type of meal time to save.';
-
-                $canonical = $this->normalizeMealType($meal_type);
-                if (!$canonical) {
-                    $errors[] = 'Invalid meal time type.';
-                }
-
-                if (empty($errors)) {
-                    $stmt = $conn->prepare(
-                        "INSERT INTO meal_logs (user_id, meal_type, meal_name, log_date, logged_at, calories, protein, carbs, fat)
-                         VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)"
-                    );
-                    $calParam = $calories !== null ? $calories : 0.0;
-                    $protParam = $protein !== null ? $protein : 0.0;
-                    $carbParam = $carbs !== null ? $carbParam : 0.0;
-                    $fatParam  = $fat !== null ? $fat : 0.0;
-
-                    $stmt->bind_param(
-                        "isssdddd",
-                        $user['id'],
-                        $canonical,
-                        $meal_name,
-                        $log_date,
-                        $calParam,
-                        $protParam,
-                        $carbParam,
-                        $fatParam
-                    );
-                    $ok = $stmt->execute();
-                    $stmt->close();
-
-                    if ($ok) {
-                        $stmt2 = $conn->prepare(
-                            "SELECT COUNT(DISTINCT meal_type) AS cnt
-                             FROM meal_logs
-                             WHERE user_id = ? AND log_date = ? AND meal_type IN ('breakfast','lunch','dinner')"
-                        );
-                        $stmt2->bind_param("is", $user['id'], $log_date);
-                        $stmt2->execute();
-                        $res2 = $stmt2->get_result();
-                        $row2 = $res2->fetch_assoc();
-                        $stmt2->close();
-
-                        if ((int)($row2['cnt'] ?? 0) === 3) {
-                            $stmt3 = $conn->prepare(
-                                "INSERT IGNORE INTO user_activity (user_id, activity_date) VALUES (?, ?)"
-                            );
-                            $stmt3->bind_param("is", $user['id'], $log_date);
-                            $stmt3->execute();
-                            $stmt3->close();
-                        }
-
-                        $success = 'The nutritional results are successfully stored as meal.';
-                    } else {
-                        $errors[] = 'Failed to save meal to database.';
-                    }
-                }
-                $result = [
-                    'ingredients' => [],
-                ];
-                $ingredientsText = trim($_POST['ingredients_text'] ?? '');
+            if ($ingredientsText === '') {
+                $errors[] = 'The list of ingredients is mandatory.';
             } else {
-                $ingredientsText = trim($_POST['ingredients'] ?? '');
-
-                if ($ingredientsText === '') {
-                    $errors[] = 'The list of ingredients is mandatory.';
-                } else {
-                    try {
-                        $client = new ApiClientEdamamNutrition();
-                        $result = $client->analyzeFromText($ingredientsText);
-                    } catch (Throwable $e) {
-                        $errors[] = 'There is an error: ' . $e->getMessage();
-                    }
+                try {
+                    $client = new ApiClientEdamamNutrition();
+                    $result = $client->analyzeFromText($ingredientsText);
+                } catch (Throwable $e) {
+                    $errors[] = 'There is an error: ' . $e->getMessage();
                 }
             }
         }
@@ -167,24 +94,5 @@ class NutritionController{
             'hasResult'       => $hasResult,
             'success'         => $success,
         ];
-    }
-
-    private function normalizeMealType(string $input): ?string{
-        $input = strtolower($input);
-        switch ($input) {
-            case 'breakfast':
-            case 'sarapan':
-                return 'breakfast';
-            case 'lunch':
-            case 'makan_siang':
-            case 'makan siang':
-                return 'lunch';
-            case 'dinner':
-            case 'makan_malam':
-            case 'makan malam':
-                return 'dinner';
-            default:
-                return null;
-        }
     }
 }
