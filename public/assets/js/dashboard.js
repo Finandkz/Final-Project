@@ -3,7 +3,6 @@ const filterBox = document.getElementById("filterBox");
 
 document.getElementById("openSidebar").onclick = () => {
     sidebar.classList.add("show");
-    // Close filter if open
     if (filterBox) filterBox.classList.remove("show");
 };
 
@@ -13,7 +12,6 @@ document.getElementById("closeSidebar").onclick = () =>
 
 document.getElementById("openFilter").onclick = () => {
     filterBox.classList.add("show");
-    // Close sidebar if open
     if (sidebar) sidebar.classList.remove("show");
 };
 
@@ -47,7 +45,7 @@ let lastFilter = {
         stateLoading.classList.add('d-none');
         stateError.classList.add('d-none');
         stateNoResults.classList.add('d-none');
-        resultsGrid.innerHTML = ''; // Clear results
+        resultsGrid.innerHTML = '';
 
         if (element) {
             element.classList.remove('d-none');
@@ -115,7 +113,7 @@ let lastFilter = {
             return;
         }
 
-        // Clear states and show results
+
         showState(null); 
         
         hits.forEach((h, i) => {

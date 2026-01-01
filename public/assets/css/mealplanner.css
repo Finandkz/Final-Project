@@ -678,9 +678,9 @@ body {
         flex-direction: column;
         padding: 1rem 0.75rem 2rem;
         margin-top: 0 !important;
-        justify-content: center; /* Center Vertically */
-        align-items: center;     /* Center Horizontally */
-        min-height: 70vh;        /* Ensure height */
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
     }
 
     .mp-main {

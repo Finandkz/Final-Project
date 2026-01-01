@@ -652,9 +652,9 @@ body {
         padding: 1rem;
         display: flex;
         flex-direction: column;
-        justify-content: center; /* Center Vertically */
-        align-items: center;     /* Center Horizontally */
-        min-height: 70vh;        /* Ensure height */
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
     }
 
     .account-card {
@@ -692,7 +692,7 @@ body {
     }
 }
 
-/* Sidebar & Menu (Copied from favorites.css/dashboard.css) */
+
 .sidebar {
     position: fixed;
     right: -400px;
@@ -767,7 +767,7 @@ body {
     margin-right: 10px;
 }
 
-/* Menu Button in Header */
+
 .menu-btn {
     border: none;
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);

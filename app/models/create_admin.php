@@ -8,7 +8,7 @@ $db = (new Database())->connect();
 
 $adminName = "Admin Mealify";
 $adminEmail = "mymealifyhealthyfood@gmail.com";
-$adminPassword = "Healthy food"; // kamu boleh ganti ini
+$adminPassword = "Healthy food";
 
 $user = new User($db);
 

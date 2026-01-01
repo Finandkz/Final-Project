@@ -103,27 +103,27 @@ Env::load();
 </section>
 <section id="results" class="results">
     <div id="status-container">
-        <!-- Empty State (Start) -->
+
         <div id="state-empty" class="search-state-container search-empty-state">
             <i data-feather="search" class="search-state-icon"></i>
             <div class="search-state-text">Start searching for content</div>
             <div class="search-state-subtext">Enter a food name or keyword above</div>
         </div>
         
-        <!-- Loading State -->
+
         <div id="state-loading" class="search-state-container d-none">
             <div class="search-spinner"></div>
             <div class="search-state-text">Searching for delicious recipes...</div>
         </div>
 
-        <!-- Error State -->
+
         <div id="state-error" class="search-state-container search-error-state d-none">
             <i data-feather="alert-circle" class="search-state-icon"></i>
             <div class="search-state-text">Oops! Something went wrong</div>
             <div class="search-state-subtext">Please check your connection and try again</div>
         </div>
 
-        <!-- No Results State -->
+
         <div id="state-no-results" class="search-state-container d-none">
             <i data-feather="monitor" class="search-state-icon"></i>
             <div class="search-state-text">No results found</div>
@@ -134,7 +134,7 @@ Env::load();
     <div id="results-grid" class="grid"></div>
 </section>
 
-<!-- Template for Result Card -->
+
 <template id="recipe-card-template">
     <div class="card">
         <img src="" class="card-img" alt="Recipe Image">

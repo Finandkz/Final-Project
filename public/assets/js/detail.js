@@ -80,7 +80,7 @@ function showToast(message, type = "success") {
         .map(line => `<li>${line}</li>`)
         .join("");
 
-    // Inject dynamic data into existing HTML
+
     document.getElementById("recipeTitle").textContent = r.label;
     
     // Update source link
@@ -93,8 +93,7 @@ function showToast(message, type = "success") {
         sourceLink.style.display = "none";
         document.getElementById("recipeSource").textContent = `Source: ${r.source || "-"}`;
     }
-
-    // Update image
+    
     const imgEl = document.getElementById("recipeImage");
     if (imgEl) {
         imgEl.src = r.image;

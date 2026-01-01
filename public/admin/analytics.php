@@ -100,7 +100,7 @@ $conn = $db->connect();
     </main>
 </div>
 
-<!-- Template for Analytics Table Row -->
+
 <template id="analytics-row-template">
     <tr>
         <td class="col-date"></td>

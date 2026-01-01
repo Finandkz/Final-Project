@@ -184,7 +184,7 @@ body {
     border-radius: 20px;
     padding: 24px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0,0,0,0.05); /* Very subtle border */
+    border: 1px solid rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
@@ -632,7 +632,7 @@ body {
         margin: 5px 0;
     }
 
-    /* Handle Table responsiveness */
+
     .admin-table-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -641,7 +641,7 @@ body {
     }
 
     .admin-table {
-        min-width: 600px; /* Ensure table doesn't collapse too much */
+        min-width: 600px;
     }
 
     .admin-table thead th,

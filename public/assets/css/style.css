@@ -210,7 +210,7 @@ input:focus {
 .btn-google:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-    color: #fff; /* Keep white text */
+    color: #fff;
 }
 
 .link {

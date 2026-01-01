@@ -19,9 +19,12 @@ class StreakController{
             header("Location: ../public/login.php");
             exit;
         }
-
-        Env::load();
-        date_default_timezone_set(Env::get('APP_TIMEZONE', 'Asia/Jakarta'));
+        if (class_exists('App\Helpers\Env')) {
+            Env::load();
+        }
+        
+        $tz = Env::get('APP_TIMEZONE', 'Asia/Jakarta');
+        date_default_timezone_set($tz);
 
         $db = new Database();
         $this->conn = $db->connect();
@@ -45,7 +48,7 @@ class StreakController{
                     'todayLogs' => $this->getTodayLogs($userId, $today),
                     'streak' => $this->calculateStreak($userId),
                     'streakActive' => $this->isTodayActive($userId, $today),
-                    'freezeLeft' => 0, // placeholder or fetch
+                    'freezeLeft' => 0,
                     'year' => (int)($_GET['year'] ?? date('Y')),
                     'activeDates' => []
                 ];
@@ -155,7 +158,7 @@ class StreakController{
         $currentMonth = date('Y-m');
 
         if ($last && date('Y-m', strtotime($last)) === $currentMonth) {
-            return; 
+            return;
         }
 
         $stmt = $this->conn->prepare(
@@ -356,6 +359,15 @@ class StreakController{
             $dateStr = $checkDate->format('Y-m-d');
 
             if (!$this->isTodayActive($userId, $dateStr)) {
+                
+                $prevDate = clone $checkDate;
+                $prevDate->modify('-1 day');
+                $prevDateStr = $prevDate->format('Y-m-d');
+
+                if (!$this->isTodayActive($userId, $prevDateStr)) {
+                    continue; 
+                }
+
                 if ($freezeLeft > 0) {
                     $freezeLeft--;
                     

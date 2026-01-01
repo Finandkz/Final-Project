@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       closeSidebarBtn.onclick = () => sidebar.classList.remove("show");
   }
 
-  // Initialize feather icons if available
+
   if (typeof feather !== 'undefined') {
       feather.replace();
   }

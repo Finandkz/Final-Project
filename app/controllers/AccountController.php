@@ -142,7 +142,7 @@ class AccountController{
             return;
         }
 
-        if ($file['size'] > 2 * 1024 * 1024) { // 2MB
+        if ($file['size'] > 2 * 1024 * 1024) {
             $errors[] = "Maximum photo size is 2MB.";
             return;
         }

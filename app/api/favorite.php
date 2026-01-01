@@ -48,7 +48,7 @@ if ($uri === "" || $label === "") {
     exit;
 }
 
-/** @var mysqli $db */
+
 $db = (new Database())->connect();
 
 $uri = substr($uri, 0, 255);

@@ -101,7 +101,7 @@ $appKey = Env::get("EDAMAM_APP_KEY");
     </div>
 </div>
 
-<!-- Meal Planner Modal -->
+
 <div class="mp-modal" id="mpModal">
     <div class="mp-modal-content">
         <div class="mp-modal-header">
