@@ -61,8 +61,9 @@ class StreakController{
 
             if (!$canonical) $errors[] = 'Invalid meal type.';
             if ($mealName === '') $errors[] = 'Food name is required.';
+            
             if (!$errors && !$this->isWithinValidWindow($canonical, new DateTime())) {
-                $errors[] = 'Inappropriate meal times.';
+               $errors[] = 'Inappropriate meal times.';
             }
 
             if (!$errors) {
@@ -76,6 +77,10 @@ class StreakController{
                 $existing = $stmt->get_result()->fetch_assoc();
                 $stmt->close();
                 $nutri = $this->fetchNutritionFromFoodDb($mealName);
+                $cal = $nutri['cal'];
+                $prot = $nutri['prot'];
+                $carb = $nutri['carb'];
+                $fat = $nutri['fat'];
 
                 if ($existing) {
                     $stmt = $this->conn->prepare(
@@ -83,16 +88,21 @@ class StreakController{
                          SET meal_name = ?, calories = ?, protein = ?, carbs = ?, fat = ?, logged_at = NOW()
                          WHERE id = ?"
                     );
+                    
+                    $existingId = $existing['id'];
                     $stmt->bind_param(
-                        "sddddi",
+                        "sssssi",
                         $mealName,
-                        $nutri['cal'],
-                        $nutri['prot'],
-                        $nutri['carb'],
-                        $nutri['fat'],
-                        $existing['id']
+                        $cal,
+                        $prot,
+                        $carb,
+                        $fat,
+                        $existingId
                     );
-                    $stmt->execute();
+                    
+                    if (!$stmt->execute()) {
+                        $errors[] = "Gagal menyimpan data (Update): " . $stmt->error;
+                    }
                     $stmt->close();
                 } else {
                     $stmt = $this->conn->prepare(
@@ -101,24 +111,30 @@ class StreakController{
                           calories, protein, carbs, fat)
                          VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?)"
                     );
+                    
                     $stmt->bind_param(
-                        "isssdddd",
+                        "isssssss",
                         $userId,
                         $canonical,
                         $mealName,
                         $today,
-                        $nutri['cal'],
-                        $nutri['prot'],
-                        $nutri['carb'],
-                        $nutri['fat']
+                        $cal,
+                        $prot,
+                        $carb,
+                        $fat
                     );
-                    $stmt->execute();
+                    
+                    if (!$stmt->execute()) {
+                        $errors[] = "Gagal menyimpan data (Insert): " . $stmt->error;
+                    }
                     $stmt->close();
                 }
-                $this->updateDailyActivity($userId, $today);
-
-                header("Location: streak.php?success=1");
-                exit;
+                
+                if (empty($errors)) {
+                    $this->updateDailyActivity($userId, $today);
+                    header("Location: streak.php?success=1");
+                    exit;
+                }
             }
         }
         $todayLogs   = $this->getTodayLogs($userId, $today);

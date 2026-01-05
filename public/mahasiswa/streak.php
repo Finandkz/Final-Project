@@ -60,6 +60,7 @@ function formatLogTime(?string $dt): string {
         <?php endif; ?>
 
 
+
 <section class="streak-summary">
         <h1 class="streak-title">YOUR STREAK</h1>
         <p class="streak-count <?= $streakActive ? 'streak-on' : 'streak-off' ?>">
